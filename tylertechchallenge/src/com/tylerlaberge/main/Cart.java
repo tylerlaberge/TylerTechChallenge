@@ -32,6 +32,8 @@ public class Cart {
                     this.food_items.put(food_item_name, 1);
                 }
                 food_item.setStock(food_item.getStock() - 1);
+                this.current_weight += food_item.getWeight();
+                this.current_volume += food_item.getVolume();
             }
             else {
                 throw new ValueException("Food item surpasses cart weight/volume limit");
