@@ -1,0 +1,3 @@
+bread, 30;
+chicken, 1;
+watermelon, 5;
