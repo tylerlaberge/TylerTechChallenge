@@ -19,7 +19,7 @@ public class ShopperTest {
     @Before
     public void setUp() throws Exception {
         this.food_item = new FoodItem("bread", "grains", 30, 3.00, 0.5, 4.00);
-        this.cart = new Cart(20.0, 12.0);
+        this.cart = new Cart(20.0, 65.0);
         this.shopper = new Shopper(100.0, this.cart);
     }
 
@@ -31,15 +31,18 @@ public class ShopperTest {
     @Test
     public void addToCart() throws Exception {
 
-        this.shopper.addToCart(this.food_item);
-
-        int amount = this.cart.getFood_items().get(this.food_item.getName());
-
-        assertEquals(1, amount);
-        assertEquals(29, this.food_item.getStock());
-        assertEquals(97.0, this.shopper.getRemaining_budget(), 0.0);
+        this.shopper.addToCart(this.food_item, this.food_item.getStock()/2);
+        assertEquals(55.00, this.shopper.getRemaining_budget(), 0.0);
     }
 
+    @Test
+    public void testRemoveFromCart() throws Exception {
+
+        this.shopper.addToCart(this.food_item, 5);
+        this.shopper.removeFromCart(this.food_item, 5);
+
+        assertEquals(100.0, this.shopper.getRemaining_budget(), 0.0);
+    }
     @Test
     public void getBudget() throws Exception {
         assertEquals(100.0, this.shopper.getBudget(), 0.0);

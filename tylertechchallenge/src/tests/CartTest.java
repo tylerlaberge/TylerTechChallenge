@@ -2,6 +2,7 @@ package tests;
 
 import com.tylerlaberge.main.Cart;
 import com.tylerlaberge.main.FoodItem;
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +16,7 @@ public class CartTest {
     @Before
     public void setUp() throws Exception {
         this.food_item = new FoodItem("bread", "grains", 30, 3.00, 0.5, 4.00);
-        this.cart = new Cart(20.0, 12.0);
+        this.cart = new Cart(20.0, 65.0);
     }
 
     @After
@@ -25,15 +26,36 @@ public class CartTest {
 
     @Test
     public void addFoodItem() throws Exception {
-        this.cart.addFoodItem(this.food_item);
-        this.cart.addFoodItem(this.food_item);
+        this.cart.addFoodItem(this.food_item, this.food_item.getStock()/2);
 
         int amount  = this.cart.getFood_items().get("bread");
 
-        assertEquals(28, this.food_item.getStock());
-        assertEquals(1.0, this.cart.getCurrent_weight(), 0.0);
-        assertEquals(8.00, this.cart.getCurrent_volume(), 0.0);
-        assertEquals(2, amount);
+        assertEquals(15, this.food_item.getStock());
+        assertEquals(7.5, this.cart.getCurrent_weight(), 0.0);
+        assertEquals(60, this.cart.getCurrent_volume(), 0.0);
+        assertEquals(15, amount);
+    }
+
+    @Test
+    public void testRemoveFoodItem() throws Exception {
+        this.cart.addFoodItem(this.food_item, 5);
+        this.cart.removeFoodItem(this.food_item, 5);
+
+        assertEquals(30, this.food_item.getStock());
+        assertEquals(0, this.cart.getCurrent_weight(), 0.0);
+        assertEquals(0, this.cart.getCurrent_volume(), 0.0);
+        assertFalse(this.cart.getFood_items().containsKey("bread"));
+    }
+
+    @Test(expected=ValueException.class)
+    public void testRemoveOverQuantity() {
+        this.cart.addFoodItem(this.food_item, 5);
+        this.cart.removeFoodItem(this.food_item, 6);
+    }
+
+    @Test(expected=ValueException.class)
+    public void testRemoveMissingItem() {
+        this.cart.removeFoodItem(this.food_item, 1);
     }
 
     @Test
@@ -43,7 +65,7 @@ public class CartTest {
 
     @Test
     public void getVolume_limit() throws Exception {
-        assertEquals(12.0, this.cart.getVolume_limit(), 0.0);
+        assertEquals(65.0, this.cart.getVolume_limit(), 0.0);
     }
 
     @Test

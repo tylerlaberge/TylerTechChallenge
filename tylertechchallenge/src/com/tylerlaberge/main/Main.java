@@ -1,8 +1,9 @@
 package com.tylerlaberge.main;
 
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
+
 import java.io.*;
-import java.util.Arrays;
-import java.util.function.DoubleBinaryOperator;
+import java.util.*;
 
 public class Main {
 
@@ -19,9 +20,15 @@ public class Main {
             double budget = Double.parseDouble(constraints[1].trim());
             double weight_limit = Double.parseDouble(constraints[2].trim());
             double volume_limit = Double.parseDouble(constraints[3].trim());
-            Shopper shopper = new Shopper(budget, new Cart(weight_limit, volume_limit));
-            System.out.println(task);
-            System.out.println(shopper);
+
+            Shopper shopper;
+            if(task == 1) {
+                shopper = new Shopper(budget, new Cart());
+            }
+            else {
+                throw new ValueException("Invalid task");
+            }
+            List<FoodItem> food_items = new ArrayList<FoodItem>();
             line = reader.readLine();
             while(line !=null)
             {
@@ -34,10 +41,38 @@ public class Main {
                 String food_group = food_item_details[5].trim();
 
                 FoodItem food_item = new FoodItem(name, food_group, stock, price, weight, volume);
-                System.out.println(food_item);
+                food_items.add(food_item);
                 line = reader.readLine();
             }
-            writer.write(shopper.getCart().getFood_items().toString());
+            Collections.sort(food_items);
+            FoodItem prev_item = null;
+            for (FoodItem food_item : food_items){
+                int quantity = (int)shopper.getRemaining_budget()/(int)food_item.getPrice();
+                if (quantity < 1) {
+                    if (prev_item != null) {
+                        double prev_remaining_budget = shopper.getRemaining_budget();
+                        shopper.removeFromCart(prev_item, 1);
+                        double new_remaining_budget = shopper.getRemaining_budget() - food_item.getPrice();
+                        if (new_remaining_budget < prev_remaining_budget) {
+                            shopper.addToCart(food_item, 1);
+                        }
+                        else {
+                            shopper.addToCart(prev_item, 1);
+                        }
+                    }
+                    break;
+                }
+                else if (quantity >= food_item.getStock()) {
+                    shopper.addToCart(food_item, food_item.getStock());
+                }
+                else {
+                    shopper.addToCart(food_item, quantity);
+                }
+                if (prev_item == null || !prev_item.getName().equals(food_item.getName())){
+                    prev_item = food_item;
+                }
+            }
+            writer.write(shopper.getCart().toString());
         }
     }
 }

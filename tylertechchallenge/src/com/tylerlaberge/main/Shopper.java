@@ -1,5 +1,7 @@
 package com.tylerlaberge.main;
 
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
+
 public class Shopper {
 
     private double budget;
@@ -11,9 +13,21 @@ public class Shopper {
         this.remaining_budget = budget;
         this.cart = cart;
     }
-    public void addToCart(FoodItem food_item) {
-        this.cart.addFoodItem(food_item);
-        this.remaining_budget -= food_item.getPrice();
+    public void addToCart(FoodItem food_item, int quantity) {
+        if (this.canAfford(food_item, quantity)){
+            this.cart.addFoodItem(food_item, quantity);
+            this.remaining_budget -= food_item.getPrice() * quantity;
+        }
+        else {
+            throw new ValueException("Cant afford food item");
+        }
+    }
+    public void removeFromCart(FoodItem food_item, int quantity) {
+        this.cart.removeFoodItem(food_item, quantity);
+        this.remaining_budget += food_item.getPrice() * quantity;
+    }
+    public boolean canAfford(FoodItem food_item, int quantity) {
+        return this.remaining_budget - food_item.getPrice() * quantity >= 0;
     }
     public double getBudget() {
         return budget;
