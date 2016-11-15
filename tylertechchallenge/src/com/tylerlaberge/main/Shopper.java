@@ -22,4 +22,7 @@ public class Shopper {
     public Cart getCart() {
         return cart;
     }
+    public String toString() {
+        return String.format("<Shopper budget: %f, cart: %s>", this.budget, this.cart.toString());
+    }
 }

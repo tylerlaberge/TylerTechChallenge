@@ -59,4 +59,8 @@ public class Cart {
     public HashMap<String, Integer> getFood_items() {
         return food_items;
     }
+    public String toString() {
+        return String.format("<Cart weight_limit: %f, volume_limit: %f, items: %s",
+                this.WEIGHT_LIMIT, this.VOLUME_LIMIT, this.food_items.toString());
+    }
 }

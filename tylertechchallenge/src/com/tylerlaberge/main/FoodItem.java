@@ -39,4 +39,8 @@ public class FoodItem {
     public void setStock(int stock) {
         this.stock = stock;
     }
+    public String toString() {
+        return String.format("<FoodItem name: %s, stock: %d, price: %f, weight: %f, volume: %f, food_group: %s",
+                this.name, this.stock, this.price, this.weight, this.volume, this.food_group);
+    }
 }
