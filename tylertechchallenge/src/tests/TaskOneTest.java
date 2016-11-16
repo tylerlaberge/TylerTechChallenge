@@ -65,7 +65,7 @@ public class TaskOneTest {
     }
 
     @Test
-    public void solve() throws Exception {
+    public void testSolve() throws Exception {
         String expected_solution = "bread, 30;\nmilk, 1;\nwatermelon, 5;";
         String actual_solution = this.task_one.solve(this.constraints, this.inventory_details);
 

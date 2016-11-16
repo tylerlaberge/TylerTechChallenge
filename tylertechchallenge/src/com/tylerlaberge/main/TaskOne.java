@@ -6,21 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class TaskOne implements Task {
+public class TaskOne extends Task {
 
     @Override
-    public String solve(HashMap<String, String> constraints, List<HashMap<String, String>> inventory_details) {
-        Shopper shopper = this.buildShopper(constraints);
-        List<FoodItem> inventory = this.buildInventory(inventory_details);
-
-        return this.solve(shopper, inventory);
-    }
-
-    private Shopper buildShopper(HashMap<String, String> constraints) {
+    protected Shopper buildShopper(HashMap<String, String> constraints) {
         return new Shopper(Double.parseDouble(constraints.get("budget")), new Cart());
     }
 
-    private List<FoodItem> buildInventory(List<HashMap<String, String>> food_item_details) {
+    @Override
+    protected List<FoodItem> buildInventory(List<HashMap<String, String>> food_item_details) {
         List<FoodItem> food_items = new ArrayList<>();
         for (HashMap<String, String> food_item_map : food_item_details) {
             food_items.add(
@@ -34,7 +28,8 @@ public class TaskOne implements Task {
         return food_items;
     }
 
-    private String solve(Shopper shopper, List<FoodItem> inventory) {
+    @Override
+    protected String solve(Shopper shopper, List<FoodItem> inventory) {
         Collections.sort(inventory);
         for (FoodItem food_item : inventory){
             int quantity = (int)shopper.getRemaining_budget()/(int)food_item.getPrice();

@@ -4,7 +4,16 @@ package com.tylerlaberge.main;
 import java.util.HashMap;
 import java.util.List;
 
-public interface Task {
+public abstract class Task {
 
-    String solve(HashMap<String, String> constraints, List<HashMap<String, String>> inventory_details);
+    abstract Shopper buildShopper(HashMap<String, String> constraints);
+    abstract List<FoodItem> buildInventory(List<HashMap<String, String>> inventory_details);
+    abstract String solve(Shopper shopper, List<FoodItem> inventory);
+
+    public String solve(HashMap<String, String> constraints, List<HashMap<String, String>> inventory_details) {
+        Shopper shopper = this.buildShopper(constraints);
+        List<FoodItem> inventory = this.buildInventory(inventory_details);
+
+        return this.solve(shopper, inventory);
+    }
 }
