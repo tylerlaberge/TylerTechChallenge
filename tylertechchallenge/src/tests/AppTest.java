@@ -29,15 +29,53 @@ public class AppTest {
     @After
     public void tearDown() throws Exception {
     }
+    private Path getInputFilePath(int task) throws Exception {
+        Path input_file_path = null;
+        if (task == 1){
+            input_file_path = Paths.get(AppTest.class.getResource("input_files/input1.txt").toURI());
+        }
+        else if (task == 2){
+            input_file_path = Paths.get(AppTest.class.getResource("input_files/input2.txt").toURI());
+        }
+        return input_file_path;
+    }
+    private Path getOutputFilePath(int task) throws Exception {
+        Path output_file_path = null;
+        if (task == 1){
+            output_file_path = Paths.get(AppTest.class.getResource("output_files/output1.txt").toURI());
+        }
+        else if (task == 2){
+            output_file_path = Paths.get(AppTest.class.getResource("output_files/output2.txt").toURI());
+        }
+        return output_file_path;
+    }
     @Test
-    public void main() throws Exception {
+    public void testTaskOneInput() throws Exception {
+
+        Path input_file_path = this.getInputFilePath(1);
+        Path output_file_path = this.getOutputFilePath(1);
 
         String[] args = new String[2];
-        URL input_file_url = AppTest.class.getResource("input_files/input1.txt");
-        URL output_file_url = AppTest.class.getResource("output_files/output1.txt");
-        Path input_file_path = Paths.get(input_file_url.toURI());
-        Path output_file_path = Paths.get(output_file_url.toURI());
+        args[0] = input_file_path.toString();
+        args[1] = this.folder.getRoot() + "/output.txt";
 
+        App.main(args);
+
+        Path expected_output_file_path = FileSystems.getDefault().getPath(output_file_path.toString());
+        Path actual_output_path = FileSystems.getDefault().getPath(args[1]);
+
+        List<String> expected_lines = Files.readAllLines(expected_output_file_path, StandardCharsets.UTF_8);
+        List<String> actual_lines = Files.readAllLines(actual_output_path, StandardCharsets.UTF_8);
+
+        assertEquals(expected_lines, actual_lines);
+    }
+    @Test
+    public void testTaskTwoInput() throws Exception {
+
+        Path input_file_path = this.getInputFilePath(2);
+        Path output_file_path = this.getOutputFilePath(2);
+
+        String[] args = new String[2];
         args[0] = input_file_path.toString();
         args[1] = this.folder.getRoot() + "/output.txt";
 

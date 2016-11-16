@@ -1,0 +1,2 @@
+bread, 30;
+chicken, 2;

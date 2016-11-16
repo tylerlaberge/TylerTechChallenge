@@ -18,6 +18,11 @@ public class Cart {
         this.VOLUME_LIMIT = Double.POSITIVE_INFINITY;
     }
 
+    public Cart(double weight_limit) {
+        this.WEIGHT_LIMIT = weight_limit;
+        this.VOLUME_LIMIT = Double.POSITIVE_INFINITY;
+    }
+
     public Cart(double weight_limit, double volume_limit) {
         this.WEIGHT_LIMIT = weight_limit;
         this.VOLUME_LIMIT = volume_limit;
@@ -81,6 +86,10 @@ public class Cart {
     public double getCurrentWeight() {
         return current_weight;
     }
+
+    public double getRemainingWeight() { return this.WEIGHT_LIMIT - this.current_weight; }
+
+    public double getRemainingVolume() { return this.VOLUME_LIMIT - this.current_volume; }
 
     public double getCurrentVolume() {
         return current_volume;

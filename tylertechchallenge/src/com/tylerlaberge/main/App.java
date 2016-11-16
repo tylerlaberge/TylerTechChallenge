@@ -2,6 +2,7 @@ package com.tylerlaberge.main;
 
 import com.tylerlaberge.tasks.Task;
 import com.tylerlaberge.tasks.TaskOne;
+import com.tylerlaberge.tasks.TaskTwo;
 
 import java.io.*;
 import java.util.*;
@@ -30,6 +31,9 @@ public class App {
         Task task = null;
         if (Integer.parseInt(constraints.get("task")) == 1) {
             task = new TaskOne();
+        }
+        else if (Integer.parseInt(constraints.get("task")) == 2) {
+            task = new TaskTwo();
         }
         if (task != null) {
             String optimal_cart = task.solve(constraints, food_item_details);

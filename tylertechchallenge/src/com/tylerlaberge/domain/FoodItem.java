@@ -1,6 +1,6 @@
 package com.tylerlaberge.domain;
 
-public class FoodItem implements Comparable<FoodItem> {
+public class FoodItem {
 
     private String name;
     private String food_group;
@@ -49,13 +49,5 @@ public class FoodItem implements Comparable<FoodItem> {
     public String toString() {
         return String.format("<FoodItem name: %s, stock: %d, price: %f, weight: %f, volume: %f, food_group: %s",
                 this.name, this.stock, this.price, this.weight, this.volume, this.food_group);
-    }
-
-    public int compareTo(FoodItem other) {
-        if (this.price == other.price)
-            return 0;
-        else {
-            return this.price < other.price ? -1 : 1;
-        }
     }
 }

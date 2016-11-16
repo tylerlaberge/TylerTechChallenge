@@ -4,10 +4,7 @@ import com.tylerlaberge.domain.Cart;
 import com.tylerlaberge.domain.FoodItem;
 import com.tylerlaberge.domain.Shopper;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 public class TaskOne extends Task {
@@ -18,23 +15,15 @@ public class TaskOne extends Task {
     }
 
     @Override
-    protected List<FoodItem> buildInventory(List<HashMap<String, String>> food_item_details) {
-        List<FoodItem> food_items = new ArrayList<>();
-        for (HashMap<String, String> food_item_map : food_item_details) {
-            food_items.add(
-                    new FoodItem(
-                            food_item_map.get("name"), food_item_map.get("food_group"),
-                            Integer.parseInt(food_item_map.get("stock")), Double.parseDouble(food_item_map.get("price")),
-                            Double.parseDouble(food_item_map.get("weight")), Double.parseDouble(food_item_map.get("volume"))
-                    )
-            );
-        }
-        return food_items;
-    }
-
-    @Override
     protected String solve(Shopper shopper, List<FoodItem> inventory) {
-        Collections.sort(inventory);
+        Collections.sort(inventory, (FoodItem food_item_one, FoodItem food_item_two) -> {
+            if (food_item_one.getPrice() == food_item_two.getPrice())
+                return 0;
+            else {
+                return food_item_one.getPrice() < food_item_two.getPrice() ? -1 : 1;
+            }
+        });
+
         for (FoodItem food_item : inventory) {
             int quantity = (int) shopper.getRemainingBudget() / (int) food_item.getPrice();
             if (quantity < 1) {
