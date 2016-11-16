@@ -70,21 +70,9 @@ public class App {
     }
     private void run() {
         Collections.sort(this.food_items);
-        FoodItem prev_item = null;
         for (FoodItem food_item : this.food_items){
             int quantity = (int)this.shopper.getRemaining_budget()/(int)food_item.getPrice();
             if (quantity < 1) {
-                if (prev_item != null) {
-                    double prev_remaining_budget = this.shopper.getRemaining_budget();
-                    this.shopper.removeFromCart(prev_item, 1);
-                    double new_remaining_budget = this.shopper.getRemaining_budget() - food_item.getPrice();
-                    if (new_remaining_budget < prev_remaining_budget) {
-                        this.shopper.addToCart(food_item, 1);
-                    }
-                    else {
-                        this.shopper.addToCart(prev_item, 1);
-                    }
-                }
                 break;
             }
             else if (quantity >= food_item.getStock()) {
@@ -93,7 +81,6 @@ public class App {
             else {
                 this.shopper.addToCart(food_item, quantity);
             }
-            prev_item = food_item;
         }
     }
     public static void main(String[] args) throws IOException {
