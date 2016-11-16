@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface Task {
 
-    String solve(HashMap<String, String> constraints, List<HashMap<String, String>> food_items);
+    String solve(HashMap<String, String> constraints, List<HashMap<String, String>> inventory_details);
 }
