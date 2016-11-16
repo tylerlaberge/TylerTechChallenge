@@ -1,8 +1,7 @@
 package tests;
 
-import com.tylerlaberge.main.Task;
-import com.tylerlaberge.main.TaskOne;
-import org.junit.After;
+import com.tylerlaberge.tasks.Task;
+import com.tylerlaberge.tasks.TaskOne;
 import org.junit.Before;
 import org.junit.Test;
 

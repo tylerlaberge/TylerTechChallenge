@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import com.tylerlaberge.main.FoodItem;
+import com.tylerlaberge.domain.FoodItem;
 
 public class FoodItemTest {
     private FoodItem food_item;

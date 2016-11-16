@@ -1,4 +1,8 @@
-package com.tylerlaberge.main;
+package com.tylerlaberge.tasks;
+
+import com.tylerlaberge.domain.Cart;
+import com.tylerlaberge.domain.FoodItem;
+import com.tylerlaberge.domain.Shopper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,15 +35,13 @@ public class TaskOne extends Task {
     @Override
     protected String solve(Shopper shopper, List<FoodItem> inventory) {
         Collections.sort(inventory);
-        for (FoodItem food_item : inventory){
-            int quantity = (int)shopper.getRemaining_budget()/(int)food_item.getPrice();
+        for (FoodItem food_item : inventory) {
+            int quantity = (int) shopper.getRemainingBudget() / (int) food_item.getPrice();
             if (quantity < 1) {
                 break;
-            }
-            else if (quantity >= food_item.getStock()) {
+            } else if (quantity >= food_item.getStock()) {
                 shopper.addToCart(food_item, food_item.getStock());
-            }
-            else {
+            } else {
                 shopper.addToCart(food_item, quantity);
             }
         }

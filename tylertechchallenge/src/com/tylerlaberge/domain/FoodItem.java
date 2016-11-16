@@ -1,4 +1,4 @@
-package com.tylerlaberge.main;
+package com.tylerlaberge.domain;
 
 public class FoodItem implements Comparable<FoodItem> {
 
@@ -21,32 +21,40 @@ public class FoodItem implements Comparable<FoodItem> {
     public String getName() {
         return name;
     }
+
     public String getFood_group() {
         return food_group;
     }
+
     public int getStock() {
         return stock;
     }
+
     public double getPrice() {
         return price;
     }
+
     public double getWeight() {
         return weight;
     }
+
     public double getVolume() {
         return volume;
     }
+
     public void setStock(int stock) {
         this.stock = stock;
     }
+
     public String toString() {
         return String.format("<FoodItem name: %s, stock: %d, price: %f, weight: %f, volume: %f, food_group: %s",
                 this.name, this.stock, this.price, this.weight, this.volume, this.food_group);
     }
+
     public int compareTo(FoodItem other) {
-        if(this.price == other.price)
+        if (this.price == other.price)
             return 0;
-        else{
+        else {
             return this.price < other.price ? -1 : 1;
         }
     }

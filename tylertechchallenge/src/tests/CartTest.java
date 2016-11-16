@@ -1,7 +1,7 @@
 package tests;
 
-import com.tylerlaberge.main.Cart;
-import com.tylerlaberge.main.FoodItem;
+import com.tylerlaberge.domain.Cart;
+import com.tylerlaberge.domain.FoodItem;
 import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 import org.junit.After;
 import org.junit.Before;
@@ -28,11 +28,11 @@ public class CartTest {
     public void addFoodItem() throws Exception {
         this.cart.addFoodItem(this.food_item, this.food_item.getStock()/2);
 
-        int amount  = this.cart.getFood_items().get("bread");
+        int amount  = this.cart.getFoodItems().get("bread");
 
         assertEquals(15, this.food_item.getStock());
-        assertEquals(7.5, this.cart.getCurrent_weight(), 0.0);
-        assertEquals(60, this.cart.getCurrent_volume(), 0.0);
+        assertEquals(7.5, this.cart.getCurrentWeight(), 0.0);
+        assertEquals(60, this.cart.getCurrentVolume(), 0.0);
         assertEquals(15, amount);
     }
 
@@ -42,9 +42,9 @@ public class CartTest {
         this.cart.removeFoodItem(this.food_item, 5);
 
         assertEquals(30, this.food_item.getStock());
-        assertEquals(0, this.cart.getCurrent_weight(), 0.0);
-        assertEquals(0, this.cart.getCurrent_volume(), 0.0);
-        assertFalse(this.cart.getFood_items().containsKey("bread"));
+        assertEquals(0, this.cart.getCurrentWeight(), 0.0);
+        assertEquals(0, this.cart.getCurrentVolume(), 0.0);
+        assertFalse(this.cart.getFoodItems().containsKey("bread"));
     }
 
     @Test(expected=ValueException.class)
@@ -60,26 +60,26 @@ public class CartTest {
 
     @Test
     public void getWeight_limit() throws Exception {
-        assertEquals(20.0, this.cart.getWeight_limit(), 0.0);
+        assertEquals(20.0, this.cart.getWeightLimit(), 0.0);
     }
 
     @Test
     public void getVolume_limit() throws Exception {
-        assertEquals(65.0, this.cart.getVolume_limit(), 0.0);
+        assertEquals(65.0, this.cart.getVolumeLimit(), 0.0);
     }
 
     @Test
     public void getCurrent_weight() throws Exception {
-        assertEquals(0.0, this.cart.getCurrent_weight(), 0.0);
+        assertEquals(0.0, this.cart.getCurrentWeight(), 0.0);
     }
 
     @Test
     public void getCurrent_volume() throws Exception {
-        assertEquals(0.0, this.cart.getCurrent_volume(), 0.0);
+        assertEquals(0.0, this.cart.getCurrentVolume(), 0.0);
     }
 
     @Test
     public void getFood_items() throws Exception {
-        assertTrue(this.cart.getFood_items().isEmpty());
+        assertTrue(this.cart.getFoodItems().isEmpty());
     }
 }
