@@ -1,6 +1,7 @@
 package com.tylerlaberge.main;
 
 import com.tylerlaberge.tasks.Task;
+import com.tylerlaberge.tasks.TaskFour;
 import com.tylerlaberge.tasks.TaskOne;
 import com.tylerlaberge.tasks.TaskTwo;
 
@@ -34,6 +35,9 @@ public class App {
         }
         else if (Integer.parseInt(constraints.get("task")) == 2) {
             task = new TaskTwo();
+        }
+        else if (Integer.parseInt(constraints.get("task")) == 4) {
+            task = new TaskFour();
         }
         if (task != null) {
             String optimal_cart = task.solve(constraints, food_item_details);

@@ -29,11 +29,14 @@ public class TaskFour extends Task {
             double price_weight = 1/shopper.getBudget();
             double weight_weight = 1/shopper.getCart().getWeightLimit();
             double volume_weight = 1/shopper.getCart().getVolumeLimit();
+            double sum = price_weight + weight_weight + volume_weight;
 
-            double food_item_one_value = food_item_one.getPrice()*price_weight
-                    + food_item_one.getWeight()*weight_weight + food_item_one.getVolume()*volume_weight;
-            double food_item_two_value = food_item_two.getPrice()*price_weight
-                    + food_item_two.getWeight()*weight_weight + food_item_two.getVolume()*volume_weight;
+            double food_item_one_value = food_item_one.getPrice()*price_weight/sum
+                    + food_item_one.getWeight()*weight_weight/sum
+                    + food_item_one.getVolume()*volume_weight/sum;
+            double food_item_two_value = food_item_two.getPrice()*price_weight/sum
+                    + food_item_two.getWeight()*weight_weight/sum
+                    + food_item_two.getVolume()*volume_weight/sum;
 
             if (food_item_one_value == food_item_two_value)
                 return 0;

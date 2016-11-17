@@ -64,7 +64,7 @@ public class TaskFourTest {
 
     @Test
     public void testSolve() throws Exception {
-        String expected_solution = "watermelon, 1;\nmilk, 1;\nchicken, 5";
+        String expected_solution = "chicken, 5;\nbread, 1;";
         String actual_solution = this.task_two.solve(this.constraints, this.inventory_details);
 
         assertEquals(expected_solution, actual_solution);
