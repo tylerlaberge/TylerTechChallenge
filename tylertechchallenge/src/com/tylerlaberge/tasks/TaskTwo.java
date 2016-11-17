@@ -25,9 +25,12 @@ public class TaskTwo extends Task {
         Collections.sort(inventory, (FoodItem food_item_one, FoodItem food_item_two) -> {
             double price_weight = 1/shopper.getBudget();
             double weight_weight = 1/shopper.getCart().getWeightLimit();
+            double sum = price_weight + weight_weight;
 
-            double food_item_one_value = food_item_one.getPrice()*price_weight + food_item_one.getWeight()*weight_weight;
-            double food_item_two_value = food_item_two.getPrice()*price_weight + food_item_two.getWeight()*weight_weight;
+            double food_item_one_value = food_item_one.getPrice()*price_weight/sum
+                    + food_item_one.getWeight()*weight_weight/sum;
+            double food_item_two_value = food_item_two.getPrice()*price_weight/sum
+                    + food_item_two.getWeight()*weight_weight/sum;
 
             if (food_item_one_value == food_item_two_value)
                 return 0;
