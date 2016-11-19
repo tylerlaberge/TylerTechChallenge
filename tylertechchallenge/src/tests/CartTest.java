@@ -28,7 +28,7 @@ public class CartTest {
     public void addFoodItem() throws Exception {
         this.cart.addFoodItem(this.food_item, this.food_item.getStock()/2);
 
-        int amount  = this.cart.getFoodItems().get("bread");
+        int amount  = this.cart.getFoodItems().get(this.food_item);
 
         assertEquals(15, this.food_item.getStock());
         assertEquals(7.5, this.cart.getCurrentWeight(), 0.0);

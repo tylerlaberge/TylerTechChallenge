@@ -8,6 +8,7 @@ public class FoodItem {
     private double price;
     private double weight;
     private double volume;
+    private double value;
 
     public FoodItem(String name, String food_group, int stock, double price, double weight, double volume) {
         this.name = name;
@@ -42,9 +43,13 @@ public class FoodItem {
         return volume;
     }
 
+    public double getValue() { return value; }
+
     public void setStock(int stock) {
         this.stock = stock;
     }
+
+    public void setValue(double value) { this.value = value; }
 
     public String toString() {
         return String.format("<FoodItem name: %s, stock: %d, price: %f, weight: %f, volume: %f, food_group: %s",
