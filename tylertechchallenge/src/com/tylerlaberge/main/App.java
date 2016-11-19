@@ -1,9 +1,6 @@
 package com.tylerlaberge.main;
 
-import com.tylerlaberge.tasks.Task;
-import com.tylerlaberge.tasks.TaskFour;
-import com.tylerlaberge.tasks.TaskOne;
-import com.tylerlaberge.tasks.TaskTwo;
+import com.tylerlaberge.tasks.*;
 
 import java.io.*;
 import java.util.*;
@@ -35,6 +32,9 @@ public class App {
         }
         else if (Integer.parseInt(constraints.get("task")) == 2) {
             task = new TaskTwo();
+        }
+        else if (Integer.parseInt(constraints.get("task")) == 3) {
+            task = new TaskThree();
         }
         else if (Integer.parseInt(constraints.get("task")) == 4) {
             task = new TaskFour();

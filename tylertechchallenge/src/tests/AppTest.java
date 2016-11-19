@@ -37,6 +37,9 @@ public class AppTest {
         else if (task == 2){
             input_file_path = Paths.get(AppTest.class.getResource("input_files/input2.txt").toURI());
         }
+        else if (task == 3){
+            input_file_path = Paths.get(AppTest.class.getResource("input_files/input3.txt").toURI());
+        }
         else if (task == 4){
             input_file_path = Paths.get(AppTest.class.getResource("input_files/input4.txt").toURI());
         }
@@ -49,6 +52,9 @@ public class AppTest {
         }
         else if (task == 2){
             output_file_path = Paths.get(AppTest.class.getResource("output_files/output2.txt").toURI());
+        }
+        else if (task == 3){
+            output_file_path = Paths.get(AppTest.class.getResource("output_files/output3.txt").toURI());
         }
         else if (task == 4){
             output_file_path = Paths.get(AppTest.class.getResource("output_files/output4.txt").toURI());
@@ -95,7 +101,26 @@ public class AppTest {
 
         assertEquals(expected_lines, actual_lines);
     }
+    @Test
+    public void testTaskThreeInput() throws Exception {
 
+        Path input_file_path = this.getInputFilePath(3);
+        Path output_file_path = this.getOutputFilePath(3);
+
+        String[] args = new String[2];
+        args[0] = input_file_path.toString();
+        args[1] = this.folder.getRoot() + "/output.txt";
+
+        App.main(args);
+
+        Path expected_output_file_path = FileSystems.getDefault().getPath(output_file_path.toString());
+        Path actual_output_path = FileSystems.getDefault().getPath(args[1]);
+
+        List<String> expected_lines = Files.readAllLines(expected_output_file_path, StandardCharsets.UTF_8);
+        List<String> actual_lines = Files.readAllLines(actual_output_path, StandardCharsets.UTF_8);
+
+        assertEquals(expected_lines, actual_lines);
+    }
     @Test
     public void testTaskFourInput() throws Exception {
 
