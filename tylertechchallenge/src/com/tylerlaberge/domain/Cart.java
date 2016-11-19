@@ -68,7 +68,47 @@ public class Cart {
             throw new ValueException("No such food item in the cart");
         }
     }
+    public HashMap<String, Double> getFoodGroupDistribution(List<String> food_groups) {
+        HashMap<String, Double> food_group_distribution = new HashMap<>();
+        for (String food_group : food_groups) {
+            food_group_distribution.put(food_group, 0.0);
+        }
+        HashMap<String, List<FoodItem>> cart_food_groups = new HashMap<>();
 
+        int food_group_quantity_sum = 0;
+        for (FoodItem food_item : this.getFoodItems().keySet()) {
+            String food_group = food_item.getFood_group();
+            List<FoodItem> food_group_list;
+            if (cart_food_groups.containsKey(food_group)) {
+                food_group_list = cart_food_groups.get(food_group);
+            }
+            else {
+                food_group_list = new ArrayList<>();
+            }
+            food_group_list.add(food_item);
+            cart_food_groups.put(food_group, food_group_list);
+            food_group_quantity_sum += this.getFoodItems().get(food_item);
+        }
+
+        for (String food_group : cart_food_groups.keySet()) {
+            double amount = 0;
+            for (FoodItem food_item : cart_food_groups.get(food_group)) {
+                amount += this.getFoodItems().get(food_item);
+            }
+            double distribution = amount/food_group_quantity_sum;
+            food_group_distribution.put(food_group, distribution);
+        }
+        return food_group_distribution;
+    }
+    public boolean foodGroupDistributionBalanced(List<String> food_groups) {
+        double num_food_groups = 4;
+        for (double distribution : this.getFoodGroupDistribution(food_groups).values()) {
+            if (distribution < 1/num_food_groups - 0.05 || distribution > 1/num_food_groups + 0.05) {
+                return false;
+            }
+        }
+        return true;
+    }
     public boolean containsFoodItem(FoodItem food_item) {
         return this.food_items.containsKey(food_item);
     }

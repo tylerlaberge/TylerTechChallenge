@@ -21,7 +21,6 @@ public class TaskFour extends Task {
                 )
         );
     }
-
     @Override
     protected String solve(Shopper shopper, List<FoodItem> inventory) {
 
