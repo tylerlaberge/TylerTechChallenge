@@ -187,13 +187,10 @@ public class TaskThree extends Task {
 
             int max_distributed_food_item_amount = shopper.getCart().getFoodItems().get(max_distributed_food_item);
 
-            if (max_distributed_food_item_amount == 1) {
-                shopper.addToCart(min_distributed_food_item, 1);
+            if (max_distributed_food_item_amount > 1) {
+                shopper.removeFromCart(max_distributed_food_item, 1);
             }
-            else {
-                shopper.removeFromCart(max_distributed_food_item, max_distributed_food_item_amount/2);
-                shopper.addToCart(min_distributed_food_item, max_distributed_food_item_amount/2);
-            }
+            shopper.addToCart(min_distributed_food_item, 1);
 
             food_group_distribution = this.getFoodGroupDistribution(new ArrayList<>(food_group_map.keySet()), shopper.getCart());
         }
