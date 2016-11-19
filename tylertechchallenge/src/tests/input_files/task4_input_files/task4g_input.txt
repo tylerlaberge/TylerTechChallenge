@@ -1,0 +1,5 @@
+4, 100, 20, 12;
+chicken, 5, 0, 0, 0, meat;
+milk, 20, 0, 0, 0, dairy;
+bread, 30, 0, 0, 0, grains;
+watermelon, 5, 0, 0, 0, veggies;

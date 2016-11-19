@@ -1,0 +1,2 @@
+bread, 1;
+chicken, 5;
