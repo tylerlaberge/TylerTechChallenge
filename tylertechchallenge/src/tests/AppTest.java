@@ -40,7 +40,11 @@ public class AppTest {
             input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input1e.txt").toURI()));
         }
         else if (task == 2){
-            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input2.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input2a.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input2b.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input2c.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input2d.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input2e.txt").toURI()));
         }
         else if (task == 3){
             input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input3.txt").toURI()));
@@ -60,7 +64,11 @@ public class AppTest {
             output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output1e.txt").toURI()));
         }
         else if (task == 2){
-            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output2.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output2a.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output2b.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output2c.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output2d.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output2e.txt").toURI()));
         }
         else if (task == 3){
             output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output3.txt").toURI()));
@@ -78,6 +86,8 @@ public class AppTest {
             String[] args = new String[2];
             args[0] = input_file_path.toString();
             args[1] = this.folder.getRoot() + "/output.txt";
+
+            System.out.println(args[0]);
 
             App.main(args);
 

@@ -1,0 +1,2 @@
+milk, 14;
+watermelon, 1;

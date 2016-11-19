@@ -1,0 +1,5 @@
+2, 50, 50, 12;
+chicken, 5, 0.30, 10, 1.36, meat;
+milk, 20, 2.55, 3.5, 3.8, dairy;
+bread, 30, 3.5, 2.55, 4.00, grains;
+watermelon, 5, 10, 0.30, 2, veggies;

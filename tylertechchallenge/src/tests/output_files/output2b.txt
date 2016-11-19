@@ -1,0 +1,2 @@
+bread, 15;
+watermelon, 5;
