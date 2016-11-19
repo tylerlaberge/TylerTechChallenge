@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
 public class TaskFourTest {
     private HashMap<String, String> constraints = new HashMap<>();
     private List<HashMap<String, String>> inventory_details = new ArrayList<>();
-    private Task task_two = new TaskFour();
+    private Task task_four = new TaskFour();
 
     @Before
     public void setUp() throws Exception {
@@ -65,7 +65,7 @@ public class TaskFourTest {
     @Test
     public void testSolve() throws Exception {
         String expected_solution = "bread, 1;\nchicken, 5;";
-        String actual_solution = this.task_two.solve(this.constraints, this.inventory_details);
+        String actual_solution = this.task_four.solve(this.constraints, this.inventory_details);
 
         assertEquals(expected_solution, actual_solution);
     }

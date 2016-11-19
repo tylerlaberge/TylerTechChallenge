@@ -20,7 +20,18 @@ public class FoodItem {
         this.weight = weight;
         this.volume = volume;
     }
-
+    public static Comparator<FoodItem> priceComparator() {
+        return new Comparator<FoodItem>() {
+            @Override
+            public int compare(FoodItem o1, FoodItem o2) {
+                if (o1.getPrice() == o2.getPrice())
+                    return 0;
+                else {
+                    return o1.getPrice() < o2.getPrice() ? -1 : 1;
+                }
+            }
+        };
+    }
     public static Comparator<FoodItem> mostOptimalComparator() {
         return new Comparator<FoodItem>() {
             @Override
@@ -34,7 +45,6 @@ public class FoodItem {
             }
         };
     }
-
     public static Comparator<FoodItem> leastOptimalComparator(){
         return new Comparator<FoodItem>() {
             @Override

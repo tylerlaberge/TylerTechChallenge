@@ -16,21 +16,14 @@ public class TaskOne extends Task {
 
     @Override
     protected String solve(Shopper shopper, List<FoodItem> inventory) {
-        Collections.sort(inventory, (FoodItem food_item_one, FoodItem food_item_two) -> {
-            if (food_item_one.getPrice() == food_item_two.getPrice())
-                return 0;
-            else {
-                return food_item_one.getPrice() < food_item_two.getPrice() ? -1 : 1;
-            }
-        });
+        Collections.sort(inventory, FoodItem.priceComparator());
 
         for (FoodItem food_item : inventory) {
             int quantity = (int) shopper.getRemainingBudget() / (int) food_item.getPrice();
-            if (quantity < 1) {
-                break;
-            } else if (quantity >= food_item.getStock()) {
+            if (quantity >= food_item.getStock()) {
                 shopper.addToCart(food_item, food_item.getStock());
-            } else {
+            }
+            else if (quantity >= 1) {
                 shopper.addToCart(food_item, quantity);
             }
         }

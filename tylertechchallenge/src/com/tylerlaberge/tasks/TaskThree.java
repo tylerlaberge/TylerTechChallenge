@@ -58,16 +58,6 @@ public class TaskThree extends Task {
         }
         return shopper.getCart().toString();
     }
-    private List<FoodItem> getOptimalFoodGroupItemsList(HashMap<String, List<FoodItem>> food_group_map) {
-        List<FoodItem> optimal_food_group_items_list = new ArrayList<>();
-        for (List<FoodItem> food_list : food_group_map.values()) {
-            Collections.sort(food_list, FoodItem.mostOptimalComparator());
-            optimal_food_group_items_list.add(food_list.get(0));
-        }
-        Collections.sort(optimal_food_group_items_list, FoodItem.leastOptimalComparator());
-
-        return optimal_food_group_items_list;
-    }
     private void setFoodItemValues(List<FoodItem> inventory, double price_weight, double weight_weight) {
         double raw_food_item_values_sum = 0;
         for (FoodItem food_item : inventory){
@@ -78,6 +68,16 @@ public class TaskThree extends Task {
         for (FoodItem food_item : inventory) {
             food_item.setValue(food_item.getValue()/raw_food_item_values_sum);
         }
+    }
+    private List<FoodItem> getOptimalFoodGroupItemsList(HashMap<String, List<FoodItem>> food_group_map) {
+        List<FoodItem> optimal_food_group_items_list = new ArrayList<>();
+        for (List<FoodItem> food_list : food_group_map.values()) {
+            Collections.sort(food_list, FoodItem.mostOptimalComparator());
+            optimal_food_group_items_list.add(food_list.get(0));
+        }
+        Collections.sort(optimal_food_group_items_list, FoodItem.leastOptimalComparator());
+
+        return optimal_food_group_items_list;
     }
     private List<FoodItem> getMaxDistributedFoodItems(HashMap<String, Double> food_group_distribution, List<FoodItem> food_items){
         List<String> max_distributed_food_groups = new ArrayList<>();

@@ -18,42 +18,38 @@ public class TaskTwo extends Task {
                 new Cart(Double.parseDouble(constraints.get("weight_limit")))
         );
     }
-
     @Override
     protected String solve(Shopper shopper, List<FoodItem> inventory) {
+        double price_weight = shopper.getBudgetWeight();
+        double weight_weight = shopper.getWeightLimitWeight();
 
-        Collections.sort(inventory, (FoodItem food_item_one, FoodItem food_item_two) -> {
-            double price_weight = 1/shopper.getBudget();
-            double weight_weight = 1/shopper.getCart().getWeightLimit();
-            double sum = price_weight + weight_weight;
-
-            double food_item_one_value = food_item_one.getPrice()*price_weight/sum
-                    + food_item_one.getWeight()*weight_weight/sum;
-            double food_item_two_value = food_item_two.getPrice()*price_weight/sum
-                    + food_item_two.getWeight()*weight_weight/sum;
-
-            if (food_item_one_value == food_item_two_value)
-                return 0;
-            else {
-                return food_item_one_value < food_item_two_value ? -1 : 1;
-            }
-        });
+        this.setFoodItemValues(inventory, price_weight, weight_weight);
+        Collections.sort(inventory, FoodItem.mostOptimalComparator());
 
         for (FoodItem food_item : inventory) {
             int quantity = (int)Math.min(
                     shopper.getRemainingBudget() / food_item.getPrice(),
                     shopper.getCart().getRemainingWeight() / food_item.getWeight()
             );
-            if (quantity < 1) {
-                break;
-            } else if (quantity >= food_item.getStock()) {
+            if (quantity >= food_item.getStock()) {
                 shopper.addToCart(food_item, food_item.getStock());
-            } else {
+            }
+            else if (quantity >= 1) {
                 shopper.addToCart(food_item, quantity);
             }
         }
-
         return shopper.getCart().toString();
+    }
+    private void setFoodItemValues(List<FoodItem> inventory, double price_weight, double weight_weight) {
+        double raw_food_item_values_sum = 0;
+        for (FoodItem food_item : inventory){
+            double raw_food_item_value = food_item.getPrice()*price_weight + food_item.getWeight()*weight_weight;
+            food_item.setValue(raw_food_item_value);
+            raw_food_item_values_sum += raw_food_item_value;
+        }
+        for (FoodItem food_item : inventory) {
+            food_item.setValue(food_item.getValue()/raw_food_item_values_sum);
+        }
     }
 }
 

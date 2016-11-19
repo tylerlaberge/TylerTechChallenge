@@ -47,10 +47,13 @@ public class Shopper {
         return this.remaining_budget - food_item.getPrice() * quantity >= 0;
     }
     public double getBudgetWeight() {
-        return  1/this.getBudget()/(1/this.getBudget() + 1/this.getCart().getWeightLimit());
+        return  1/this.getBudget()/(1/this.getBudget() + 1/this.getCart().getWeightLimit() + 1/this.getCart().getVolumeLimit());
     }
     public double getWeightLimitWeight() {
-        return  1/this.getCart().getWeightLimit()/(1/this.getBudget() + 1/this.getCart().getWeightLimit());
+        return  1/this.getCart().getWeightLimit()/(1/this.getBudget() + 1/this.getCart().getWeightLimit() + 1/this.getCart().getVolumeLimit());
+    }
+    public double getVolumeLimitWeight() {
+        return 1/this.getCart().getVolumeLimit()/(1/this.getBudget() + 1/this.getCart().getWeightLimit() + 1/this.getCart().getVolumeLimit());
     }
     public double getBudget() {
         return budget;
