@@ -1,0 +1,3 @@
+chicken, 5;
+milk, 20;
+watermelon, 5;

@@ -33,11 +33,17 @@ public class AppTest {
     private List<Path> getInputFilePaths(int task) throws Exception {
         List<Path> input_file_paths = new ArrayList<>();
         if (task == 1){
-            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input1a.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input1b.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input1c.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input1d.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input1e.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task1_input_files/task1a_input.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task1_input_files/task1b_input.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task1_input_files/task1c_input.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task1_input_files/task1d_input.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task1_input_files/task1e_input.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task1_input_files/task1f_input.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task1_input_files/task1g_input.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task1_input_files/task1h_input.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task1_input_files/task1i_input.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task1_input_files/task1j_input.txt").toURI()));
+
         }
         else if (task == 2){
             input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/input2a.txt").toURI()));
@@ -61,11 +67,16 @@ public class AppTest {
     private List<Path> getOutputFilePaths(int task) throws Exception {
         List<Path> output_file_paths = new ArrayList<>();
         if (task == 1){
-            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output1a.txt").toURI()));
-            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output1b.txt").toURI()));
-            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output1c.txt").toURI()));
-            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output1d.txt").toURI()));
-            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output1e.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task1_output_files/task1a_output.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task1_output_files/task1b_output.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task1_output_files/task1c_output.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task1_output_files/task1d_output.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task1_output_files/task1e_output.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task1_output_files/task1f_output.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task1_output_files/task1g_output.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task1_output_files/task1h_output.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task1_output_files/task1i_output.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task1_output_files/task1j_output.txt").toURI()));
         }
         else if (task == 2){
             output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/output2a.txt").toURI()));
@@ -95,7 +106,8 @@ public class AppTest {
             args[0] = input_file_path.toString();
             args[1] = this.folder.getRoot() + "/output.txt";
 
-            System.out.println(args[0]);
+            System.out.println(input_file_path.toString());
+            System.out.println(output_file_path.toString());
 
             App.main(args);
 
