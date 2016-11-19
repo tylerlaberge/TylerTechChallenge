@@ -1,2 +1,2 @@
-bread, 15;
-watermelon, 5;
+chicken, 5;
+milk, 15;

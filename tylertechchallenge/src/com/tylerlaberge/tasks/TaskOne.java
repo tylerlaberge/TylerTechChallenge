@@ -16,17 +16,8 @@ public class TaskOne extends Task {
 
     @Override
     protected String solve(Shopper shopper, List<FoodItem> inventory) {
-        Collections.sort(inventory, FoodItem.priceComparator());
-
-        for (FoodItem food_item : inventory) {
-            int quantity = (int)(shopper.getRemainingBudget() / food_item.getPrice());
-            if (quantity >= food_item.getStock()) {
-                shopper.addToCart(food_item, food_item.getStock());
-            }
-            else if (quantity >= 1) {
-                shopper.addToCart(food_item, quantity);
-            }
-        }
+        Collections.sort(inventory, shopper.foodItemComparator());
+        shopper.fillCart(inventory);
         return shopper.getCart().toString();
     }
 }
