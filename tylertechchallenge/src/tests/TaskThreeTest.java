@@ -1,6 +1,5 @@
 package tests;
 
-import com.tylerlaberge.tasks.Task;
 import com.tylerlaberge.tasks.TaskThree;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +13,6 @@ import static org.junit.Assert.*;
 
 public class TaskThreeTest {
     private List<HashMap<String, String>> inventory_details = new ArrayList<>();
-    private Task task_two = new TaskThree();
 
     @Before
     public void setUp() throws Exception {
@@ -65,7 +63,7 @@ public class TaskThreeTest {
         constraints.put("weight_limit", "20");
         constraints.put("volume_limit", "12");
         String expected_solution = "bread, 1;\nchicken, 1;\nmilk, 1;\nwatermelon, 1;";
-        String actual_solution = this.task_two.solve(constraints, this.inventory_details);
+        String actual_solution = new TaskThree(constraints, this.inventory_details).solve();
 
         assertEquals(expected_solution, actual_solution);
     }
@@ -77,7 +75,7 @@ public class TaskThreeTest {
         constraints.put("weight_limit", "30.6");
         constraints.put("volume_limit", "12");
         String expected_solution = "bread, 2;\nchicken, 2;\nmilk, 2;\nwatermelon, 2;";
-        String actual_solution = this.task_two.solve(constraints, this.inventory_details);
+        String actual_solution = new TaskThree(constraints, this.inventory_details).solve();
 
         assertEquals(expected_solution, actual_solution);
     }

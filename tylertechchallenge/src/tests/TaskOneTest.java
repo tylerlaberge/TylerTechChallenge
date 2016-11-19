@@ -16,7 +16,7 @@ public class TaskOneTest {
 
     private HashMap<String, String> constraints = new HashMap<>();
     private List<HashMap<String, String>> inventory_details = new ArrayList<>();
-    private Task task_one = new TaskOne();
+    private Task task_one;
 
     @Before
     public void setUp() throws Exception {
@@ -61,12 +61,14 @@ public class TaskOneTest {
         this.inventory_details.add(milk_details);
         this.inventory_details.add(watermelon_details);
         this.inventory_details.add(chicken_details);
+
+        this.task_one = new TaskOne(this.constraints, this.inventory_details);
     }
 
     @Test
     public void testSolve() throws Exception {
         String expected_solution = "bread, 30;\nmilk, 1;\nwatermelon, 5;";
-        String actual_solution = this.task_one.solve(this.constraints, this.inventory_details);
+        String actual_solution = this.task_one.solve();
 
         assertEquals(expected_solution, actual_solution);
     }

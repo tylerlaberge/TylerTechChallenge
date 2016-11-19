@@ -9,11 +9,18 @@ import java.util.List;
 
 public abstract class Task {
 
-    abstract String solve(Shopper shopper, List<FoodItem> inventory);
+    protected Shopper shopper;
+    protected List<FoodItem> inventory;
+
+    public Task(HashMap<String, String> constraints, List<HashMap<String, String>> inventory_details) {
+        this.shopper = this.buildShopper(constraints);
+        this.inventory = this.buildInventory(inventory_details);
+    }
+    public abstract String solve();
 
     abstract Shopper buildShopper(HashMap<String, String> constraints);
 
-    protected List<FoodItem> buildInventory(List<HashMap<String, String>> food_item_details) {
+    private List<FoodItem> buildInventory(List<HashMap<String, String>> food_item_details) {
         List<FoodItem> food_items = new ArrayList<>();
         for (HashMap<String, String> food_item_map : food_item_details) {
             food_items.add(
@@ -25,12 +32,5 @@ public abstract class Task {
             );
         }
         return food_items;
-    }
-
-    public String solve(HashMap<String, String> constraints, List<HashMap<String, String>> inventory_details) {
-        Shopper shopper = this.buildShopper(constraints);
-        List<FoodItem> inventory = this.buildInventory(inventory_details);
-
-        return this.solve(shopper, inventory);
     }
 }

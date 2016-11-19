@@ -28,19 +28,19 @@ public class App {
 
         Task task = null;
         if (Integer.parseInt(constraints.get("task")) == 1) {
-            task = new TaskOne();
+            task = new TaskOne(constraints, food_item_details);
         }
         else if (Integer.parseInt(constraints.get("task")) == 2) {
-            task = new TaskTwo();
+            task = new TaskTwo(constraints, food_item_details);
         }
         else if (Integer.parseInt(constraints.get("task")) == 3) {
-            task = new TaskThree();
+            task = new TaskThree(constraints, food_item_details);
         }
         else if (Integer.parseInt(constraints.get("task")) == 4) {
-            task = new TaskFour();
+            task = new TaskFour(constraints, food_item_details);
         }
         if (task != null) {
-            String optimal_cart = task.solve(constraints, food_item_details);
+            String optimal_cart = task.solve();
             writer.write(optimal_cart);
         }
         writer.close();

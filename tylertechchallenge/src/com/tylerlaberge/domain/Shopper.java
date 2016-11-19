@@ -18,30 +18,34 @@ public class Shopper {
         this.remaining_budget = budget;
         this.cart = cart;
     }
-    public Comparator<FoodItem> foodItemComparator() {
+    public Comparator<FoodItem> mostOptimalFoodItemComparator() {
         Shopper shopper = this;
         return new Comparator<FoodItem>() {
             @Override
             public int compare(FoodItem o1, FoodItem o2) {
-                int o1_quantity = (int)Math.min(
-                        shopper.getRemainingBudget() / o1.getPrice(),
-                        Math.min(
-                                shopper.getCart().getRemainingWeight() / o1.getWeight(),
-                                shopper.getCart().getRemainingVolume() / o1.getVolume()
-                        )
-                );
-                int o2_quantity = (int)Math.min(
-                        shopper.getRemainingBudget() / o2.getPrice(),
-                        Math.min(
-                                shopper.getCart().getRemainingWeight() / o2.getWeight(),
-                                shopper.getCart().getRemainingVolume() / o2.getVolume()
-                        )
-                );
+                int o1_quantity = shopper.getAmountCanBuy(o1);
+                int o2_quantity = shopper.getAmountCanBuy(o2);
                 if (o1_quantity == o2_quantity) {
                     return 0;
                 }
                 else {
                     return o1_quantity > o2_quantity ? -1 : 1;
+                }
+            }
+        };
+    }
+    public Comparator<FoodItem> leastOptimalFoodItemComparator() {
+        Shopper shopper = this;
+        return new Comparator<FoodItem>() {
+            @Override
+            public int compare(FoodItem o1, FoodItem o2) {
+                int o1_quantity = shopper.getAmountCanBuy(o1);
+                int o2_quantity = shopper.getAmountCanBuy(o2);
+                if (o1_quantity == o2_quantity) {
+                    return 0;
+                }
+                else {
+                    return o1_quantity < o2_quantity ? -1 : 1;
                 }
             }
         };
@@ -76,7 +80,15 @@ public class Shopper {
         this.cart.removeFoodItem(food_item, quantity);
         this.remaining_budget += food_item.getPrice() * quantity;
     }
-
+    public int getAmountCanBuy(FoodItem food_item) {
+        return (int)Math.min(
+                this.getRemainingBudget() / food_item.getPrice(),
+                Math.min(
+                        this.getCart().getRemainingWeight() / food_item.getWeight(),
+                        this.getCart().getRemainingVolume() / food_item.getVolume()
+                )
+        );
+    }
     public boolean canAfford(FoodItem food_item, int quantity) {
         return this.remaining_budget - food_item.getPrice() * quantity >= 0;
     }
