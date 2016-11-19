@@ -1,0 +1,2 @@
+bread, 7;
+watermelon, 2;

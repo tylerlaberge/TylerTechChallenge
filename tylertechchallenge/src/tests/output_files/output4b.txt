@@ -1,0 +1,3 @@
+bread, 2;
+chicken, 5;
+watermelon, 2;
