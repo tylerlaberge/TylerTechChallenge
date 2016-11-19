@@ -13,16 +13,11 @@ import static org.junit.Assert.*;
 
 
 public class TaskThreeTest {
-    private HashMap<String, String> constraints = new HashMap<>();
     private List<HashMap<String, String>> inventory_details = new ArrayList<>();
     private Task task_two = new TaskThree();
 
     @Before
     public void setUp() throws Exception {
-        this.constraints.put("task", "3");
-        this.constraints.put("budget", "100");
-        this.constraints.put("weight_limit", "20");
-        this.constraints.put("volume_limit", "12");
 
         HashMap<String, String> bread_details = new HashMap<>();
         bread_details.put("name", "bread");
@@ -64,8 +59,25 @@ public class TaskThreeTest {
 
     @Test
     public void testSolve() throws Exception {
+        HashMap<String, String> constraints = new HashMap<>();
+        constraints.put("task", "3");
+        constraints.put("budget", "100");
+        constraints.put("weight_limit", "20");
+        constraints.put("volume_limit", "12");
         String expected_solution = "bread, 1;\nchicken, 1;\nmilk, 1;\nwatermelon, 1;";
-        String actual_solution = this.task_two.solve(this.constraints, this.inventory_details);
+        String actual_solution = this.task_two.solve(constraints, this.inventory_details);
+
+        assertEquals(expected_solution, actual_solution);
+    }
+    @Test
+    public void testSolveTwo() throws Exception {
+        HashMap<String, String> constraints = new HashMap<>();
+        constraints.put("task", "3");
+        constraints.put("budget", "100");
+        constraints.put("weight_limit", "30.6");
+        constraints.put("volume_limit", "12");
+        String expected_solution = "bread, 2;\nchicken, 2;\nmilk, 2;\nwatermelon, 2;";
+        String actual_solution = this.task_two.solve(constraints, this.inventory_details);
 
         assertEquals(expected_solution, actual_solution);
     }

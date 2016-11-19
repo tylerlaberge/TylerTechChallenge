@@ -4,6 +4,7 @@ import com.tylerlaberge.domain.Cart;
 import com.tylerlaberge.domain.FoodItem;
 import com.tylerlaberge.domain.Shopper;
 
+import java.lang.reflect.Array;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -121,22 +122,27 @@ public class TaskThree extends Task {
         }
         return food_group_distribution;
     }
-    protected FoodItem getMaxDistributedFoodItem(HashMap<String, Double> food_group_distribution, List<FoodItem> food_items){
-        String max_distributed_food_group = null;
+    protected List<FoodItem> getMaxDistributedFoodItems(HashMap<String, Double> food_group_distribution, List<FoodItem> food_items){
+        List<String> max_distributed_food_groups = new ArrayList<>();
         for(String food_group : food_group_distribution.keySet()) {
-            if (max_distributed_food_group == null) {
-                max_distributed_food_group = food_group;
+            if (max_distributed_food_groups.isEmpty()) {
+                max_distributed_food_groups.add(food_group);
             }
-            else if (food_group_distribution.get(food_group) > food_group_distribution.get(max_distributed_food_group)){
-                max_distributed_food_group = food_group;
+            else if (food_group_distribution.get(food_group) > food_group_distribution.get(max_distributed_food_groups.get(0))){
+                max_distributed_food_groups.clear();
+                max_distributed_food_groups.add(food_group);
+            }
+            else if (food_group_distribution.get(food_group).equals(food_group_distribution.get(max_distributed_food_groups.get(0)))) {
+                max_distributed_food_groups.add(food_group);
             }
         }
+        List<FoodItem> max_distributed_food_items = new ArrayList<>();
         for (FoodItem food_item : food_items) {
-            if (food_item.getFood_group().equals(max_distributed_food_group)) {
-                return food_item;
+            if (max_distributed_food_groups.contains(food_item.getFood_group())) {
+                max_distributed_food_items.add(food_item);
             }
         }
-        return null;
+        return max_distributed_food_items;
     }
     protected FoodItem getMinDistributedFoodItem(HashMap<String, Double> food_group_distribution, List<FoodItem> food_items){
         String min_distributed_food_group = null;
@@ -180,17 +186,30 @@ public class TaskThree extends Task {
         this.sortByLeastOptimal(optimal_food_items_list);
         this.fillCart(shopper, optimal_food_items_list);
 
+        List<FoodItem> purchaseable_list = new ArrayList<>(optimal_food_items_list);
         HashMap<String, Double> food_group_distribution = this.getFoodGroupDistribution(new ArrayList<>(food_group_map.keySet()), shopper.getCart());
         while(!this.foodGroupDistributionBalanced(food_group_distribution)){
-            FoodItem max_distributed_food_item = getMaxDistributedFoodItem(food_group_distribution, optimal_food_items_list);
-            FoodItem min_distributed_food_item = getMinDistributedFoodItem(food_group_distribution, optimal_food_items_list);
+            if (purchaseable_list.isEmpty()) {
+                purchaseable_list = new ArrayList<>(optimal_food_items_list);
+            }
+            List<FoodItem> max_distributed_food_items = getMaxDistributedFoodItems(food_group_distribution, optimal_food_items_list);
 
+            int index = -1;
+            for (FoodItem food_item : max_distributed_food_items) {
+                int optimal_list_index = optimal_food_items_list.indexOf(food_item);
+                if (index == -1 || optimal_list_index < index) {
+                    index = optimal_list_index;
+                }
+            }
+
+            FoodItem max_distributed_food_item = optimal_food_items_list.get(index);
             int max_distributed_food_item_amount = shopper.getCart().getFoodItems().get(max_distributed_food_item);
 
             if (max_distributed_food_item_amount > 1) {
                 shopper.removeFromCart(max_distributed_food_item, 1);
             }
-            shopper.addToCart(min_distributed_food_item, 1);
+            purchaseable_list.remove(max_distributed_food_item);
+            this.fillCart(shopper, purchaseable_list);
 
             food_group_distribution = this.getFoodGroupDistribution(new ArrayList<>(food_group_map.keySet()), shopper.getCart());
         }
