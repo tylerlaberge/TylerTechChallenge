@@ -19,7 +19,7 @@ public class TaskOne extends Task {
         Collections.sort(inventory, FoodItem.priceComparator());
 
         for (FoodItem food_item : inventory) {
-            int quantity = (int) shopper.getRemainingBudget() / (int) food_item.getPrice();
+            int quantity = (int)(shopper.getRemainingBudget() / food_item.getPrice());
             if (quantity >= food_item.getStock()) {
                 shopper.addToCart(food_item, food_item.getStock());
             }
