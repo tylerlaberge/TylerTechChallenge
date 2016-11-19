@@ -32,25 +32,27 @@ public class TaskThree extends Task {
             if (purchasable_list.isEmpty()) {
                 purchasable_list = new ArrayList<>(optimal_food_group_items_list);
             }
-            List<FoodItem> max_distributed_food_items = this.getMaxDistributedFoodItems(food_group_distribution, optimal_food_group_items_list);
 
-            int index = -1;
-            for (FoodItem food_item : max_distributed_food_items) {
-                int optimal_list_index = optimal_food_group_items_list.indexOf(food_item);
-                if (index == -1 || optimal_list_index < index) {
-                    index = optimal_list_index;
-                }
-            }
-
-            FoodItem max_distributed_food_item = optimal_food_group_items_list.get(index);
-
+            FoodItem max_distributed_food_item = this.getMostDistributedFoodItem(food_group_distribution, optimal_food_group_items_list);
             this.shopper.removeFromCart(max_distributed_food_item, 1);
             purchasable_list.remove(max_distributed_food_item);
             this.shopper.fillCart(purchasable_list);
-            food_group_distribution = this.shopper.getCart().getFoodGroupDistribution(food_group_names);
 
+            food_group_distribution = this.shopper.getCart().getFoodGroupDistribution(food_group_names);
         }
         return this.shopper.getCart().toString();
+    }
+    private FoodItem getMostDistributedFoodItem(HashMap<String, Double> food_group_distribution, List<FoodItem> food_items){
+        List<FoodItem> max_distributed_food_items = this.getMaxDistributedFoodItems(food_group_distribution, food_items);
+
+        int index = -1;
+        for (FoodItem food_item : max_distributed_food_items) {
+            int optimal_list_index = food_items.indexOf(food_item);
+            if (index == -1 || optimal_list_index < index) {
+                index = optimal_list_index;
+            }
+        }
+        return food_items.get(index);
     }
     private List<FoodItem> getOptimalFoodGroupItemsList(HashMap<String, List<FoodItem>> food_group_map) {
         List<FoodItem> optimal_food_group_items_list = new ArrayList<>();
