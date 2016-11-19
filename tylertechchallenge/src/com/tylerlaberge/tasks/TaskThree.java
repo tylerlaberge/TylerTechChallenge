@@ -28,7 +28,7 @@ public class TaskThree extends Task {
         HashMap<String, Double> food_group_distribution = this.shopper.getCart().getFoodGroupDistribution(food_group_names);
 
         this.shopper.fillCart(purchasable_list);
-        while(!this.shopper.getCart().foodGroupDistributionBalanced(food_group_names)){
+        while(!this.shopper.getCart().foodGroupDistributionBalanced(food_group_names) && !this.shopper.getCart().isEmpty()){
             if (purchasable_list.isEmpty()) {
                 purchasable_list = new ArrayList<>(optimal_food_group_items_list);
             }
@@ -43,15 +43,12 @@ public class TaskThree extends Task {
             }
 
             FoodItem max_distributed_food_item = optimal_food_group_items_list.get(index);
-            int max_distributed_food_item_amount = this.shopper.getCart().getFoodItems().get(max_distributed_food_item);
 
-            if (max_distributed_food_item_amount > 1) {
-                this.shopper.removeFromCart(max_distributed_food_item, 1);
-            }
+            this.shopper.removeFromCart(max_distributed_food_item, 1);
             purchasable_list.remove(max_distributed_food_item);
             this.shopper.fillCart(purchasable_list);
-
             food_group_distribution = this.shopper.getCart().getFoodGroupDistribution(food_group_names);
+
         }
         return this.shopper.getCart().toString();
     }

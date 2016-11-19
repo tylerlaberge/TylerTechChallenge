@@ -1,0 +1,4 @@
+bread, 6;
+chicken, 4;
+milk, 5;
+watermelon, 5;

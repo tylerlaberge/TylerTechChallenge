@@ -27,6 +27,9 @@ public class Cart {
         this.VOLUME_LIMIT = volume_limit;
     }
 
+    public boolean isEmpty() {
+        return this.food_items.isEmpty();
+    }
     public void addFoodItem(FoodItem food_item, int quantity) throws ValueException {
         if (quantity > 0) {
             if (food_item.getStock() >= quantity) {
@@ -101,7 +104,7 @@ public class Cart {
         return food_group_distribution;
     }
     public boolean foodGroupDistributionBalanced(List<String> food_groups) {
-        double num_food_groups = 4;
+        double num_food_groups = food_groups.size();
         for (double distribution : this.getFoodGroupDistribution(food_groups).values()) {
             if (distribution < 1/num_food_groups - 0.05 || distribution > 1/num_food_groups + 0.05) {
                 return false;

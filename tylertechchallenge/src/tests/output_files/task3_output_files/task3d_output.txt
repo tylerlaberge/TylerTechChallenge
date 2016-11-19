@@ -1,0 +1,4 @@
+bread, 3;
+chicken, 3;
+milk, 3;
+watermelon, 3;

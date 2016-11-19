@@ -1,0 +1,5 @@
+3, 33, 37, 12;
+chicken, 9, 3.26, 7.3, 2.22, meat;
+milk, 13, 3.97, 3.5, 9.63, dairy;
+bread, 6, 3.84, 9.2, 5.76, grains;
+watermelon, 5, 4.20, 4.87, 3.5, veggies;
