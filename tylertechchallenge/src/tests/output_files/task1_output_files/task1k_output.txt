@@ -1,0 +1,5 @@
+bread, 15;
+italian_bread, 15;
+milk, 1;
+strawberry, 2;
+watermelon, 2;

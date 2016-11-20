@@ -1,0 +1,5 @@
+beef, 1;
+chocolate_milk, 10;
+italian_bread, 15;
+strawberry, 2;
+watermelon, 2;
