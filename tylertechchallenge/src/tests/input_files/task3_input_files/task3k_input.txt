@@ -1,8 +1,8 @@
 3, 100, 20, 12;
-bread, 30, 0, 0, 0, grains;
-milk, 20, 0, 0, 0, dairy;
-watermelon, 5, 0, 0, 0, veggies;
-chicken, 5, 0, 0, 0, meat;
+bread, 30, 0.1, 0.1, 0.1, grains;
+milk, 20, 0.1, 0.1, 0.1, dairy;
+watermelon, 5, 0.1, 0.1, 0.1, veggies;
+chicken, 5, 0.1, 0.1, 0.1, meat;
 italian_bread, 30, 0, 0, 0, grains;
 chocolate_milk, 20, 0, 0, 0, dairy;
 green_beans, 5, 0, 0, 0, veggies;

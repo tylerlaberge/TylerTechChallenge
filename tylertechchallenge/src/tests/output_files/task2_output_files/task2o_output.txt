@@ -1,0 +1,2 @@
+chicken, 5;
+milk, 3;

@@ -35,8 +35,13 @@ public class TaskThree extends Task {
             FoodItem most_distributed_food_item = this.shopper.getCart().getMostDistributedFoodItemByFoodGroup(most_distributed_food_group);
 
             this.shopper.removeFromCart(most_distributed_food_item, 1);
-            purchasable_list.remove(most_distributed_food_item);
-            this.shopper.fillCart(purchasable_list);
+            if (this.shopper.getCart().isEmpty()) {
+                break;
+            }
+            else {
+                purchasable_list.remove(most_distributed_food_item);
+                this.shopper.fillCart(purchasable_list);
+            }
         }
         return this.shopper.getCart().toString();
     }
