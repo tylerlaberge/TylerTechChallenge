@@ -2,8 +2,8 @@
 chicken, 2, 5.00, 2.6, 2.72, meat;
 beef, 2, 5.00, 1.3, 1.36, meat;
 milk, 10, 4.00, 7, 7.6, dairy;
-chocolate_milk, 10, 4.00, 3.5, 3.8, dairy;
+chocolatemilk, 10, 4.00, 3.5, 3.8, dairy;
 bread, 2, 3.00, 1.0, 8.00, grains;
-italian_bread, 15, 3.00, 0.5, 4.00, grains;
+italianbread, 15, 3.00, 0.5, 4.00, grains;
 watermelon, 2, 1.00, 20, 4, veggies;
 strawberry, 2, 1.00, 10, 2, veggies;
