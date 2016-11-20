@@ -5,10 +5,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.rules.TemporaryFolder;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -24,6 +23,9 @@ public class AppTest {
 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
+
+    @Rule
+    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
     @Before
     public void setUp() throws Exception {
@@ -99,33 +101,6 @@ public class AppTest {
             input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task4_input_files/task4m_input.txt").toURI()));
             input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task4_input_files/task4n_input.txt").toURI()));
             input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task4_input_files/task4o_input.txt").toURI()));
-        } else if (task == -1) {
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_a.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_b.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_c.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_d.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_e.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_f.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_g.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_h.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_i.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_j.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_k.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_l.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_m.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_n.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_o.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_p.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_q.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_r.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_s.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_t.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_u.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_v.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_w.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_x.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_y.txt").toURI()));
-            input_file_paths.add(Paths.get(AppTest.class.getResource("bad_input_files/bad_input_z.txt").toURI()));
         }
         return input_file_paths;
     }
@@ -247,7 +222,6 @@ public class AppTest {
 
         this.testTask(input_file_paths, output_file_paths);
     }
-
     @Test
     public void testTaskFourInput() throws Exception {
         List<Path> input_file_paths = this.getInputFilePaths(4);
@@ -255,31 +229,148 @@ public class AppTest {
 
         this.testTask(input_file_paths, output_file_paths);
     }
+    private void testBadInput(Path input_file_path) {
+        String[] args = new String[2];
+        args[0] = input_file_path.toString();
+        args[1] = this.folder.getRoot() + "/output.txt";
 
+        System.out.println(input_file_path.toString());
+        this.exit.expectSystemExit();
+        App.main(args);
+    }
     @Test
-    public void testBadInput() throws Exception {
-        PrintStream orig_std_out = System.out;
-
-        List<Path> input_file_paths = this.getInputFilePaths(-1);
-        for (int i = 0; i < input_file_paths.size(); i++) {
-            Path input_file_path = input_file_paths.get(i);
-
-            String[] args = new String[2];
-            args[0] = input_file_path.toString();
-            args[1] = this.folder.getRoot() + "/output.txt";
-
-            System.setOut(orig_std_out);
-
-            System.out.println(input_file_path.toString());
-
-            ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
-            System.setOut(new PrintStream(outContent));
-
-            App.main(args);
-
-            assertEquals("Invalid input file format.\n".trim(), outContent.toString().trim());
-        }
-        System.setOut(orig_std_out);
+    public void testBadInputA() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_a.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }
+    @Test
+    public void testBadInputB() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_b.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }
+    @Test
+    public void testBadInputC() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_c.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }
+    @Test
+    public void testBadInputD() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_d.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputE() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_e.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputF() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_f.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputG() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_g.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputH() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_h.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputI() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_i.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputJ() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_j.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputK() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_k.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputL() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_l.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputM() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_m.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputN() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_n.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputO() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_o.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputP() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_p.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputQ() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_q.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputR() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_r.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputS() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_s.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputT() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_t.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputU() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_u.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputV() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_v.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputW() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_w.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputX() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_x.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }
+    @Test
+    public void testBadInputY() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_y.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
+    }@Test
+    public void testBadInputZ() throws Exception {
+        Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_z.txt").toURI());
+        this.exit.expectSystemExit();
+        this.testBadInput(input_file_path);
     }
 }

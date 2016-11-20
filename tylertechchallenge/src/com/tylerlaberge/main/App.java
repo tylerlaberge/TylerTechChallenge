@@ -1,6 +1,7 @@
 package com.tylerlaberge.main;
 
 import com.tylerlaberge.exceptions.FailedToSolveException;
+import com.tylerlaberge.exceptions.ValidationException;
 import com.tylerlaberge.tasks.*;
 
 import java.io.*;
@@ -10,59 +11,68 @@ import java.util.List;
 
 public class App {
 
-    public static void main(String[] args) throws IOException {
-        String input_file_path = args[0];
-        String output_file_path = args[1];
+    private BufferedReader reader;
+    private BufferedWriter writer;
+    private HashMap<String, String> constraints;
+    private List<HashMap<String, String>> food_item_details_list;
 
-        BufferedReader reader = new BufferedReader(new FileReader(input_file_path));
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output_file_path), "utf-8"));
-
-        String first_line = reader.readLine();
-
-        HashMap<String, String> constraints = new HashMap<>();
-        List<HashMap<String, String>> food_item_details_list = new ArrayList<>();
-        boolean valid_input = false;
+    private App(String input_file_path, String output_file_path) {
         try {
-            constraints = App.parseConstraints(first_line);
-
-            String food_item_line = reader.readLine();
-            while (food_item_line != null) {
-                HashMap<String, String> food_item_details = App.parseFoodItemDetails(food_item_line);
-                food_item_details_list.add(food_item_details);
-                food_item_line = reader.readLine();
-            }
-            reader.close();
-
-            App.validateConstraints(constraints);
-            App.validateFoodItemDetails(food_item_details_list);
-            valid_input = true;
-
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid input file format.");
+            this.reader = new BufferedReader(new FileReader(input_file_path));
+            this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output_file_path), "utf-8"));
+        } catch (IOException e) {
+            System.out.println("Failed to open file.");
+            System.exit(1);
         }
-        if (valid_input) {
+        try {
+            this.constraints = App.parseConstraints(this.reader.readLine());
+            this.food_item_details_list = new ArrayList<>();
+            this.buildFoodItemDetailsList();
 
-            int task_number = Integer.parseInt(constraints.get("task"));
+            App.validateConstraints(this.constraints);
+            App.validateFoodItemDetails(this.food_item_details_list);
+        } catch (IllegalArgumentException e){
+            System.out.println("Invalid input file format");
+            System.exit(1);
+        } catch (ValidationException e) {
+            System.out.println("Input file failed validation.");
+            System.exit(1);
+        } catch (IOException e) {
+            System.out.println("Failed to read from file.");
+            System.exit(1);
+        }
+    }
+    private void run() {
+        int task_number = Integer.parseInt(this.constraints.get("task"));
 
-            Task task = null;
-            if (task_number == 1) {
-                task = new TaskOne(constraints, food_item_details_list);
-            } else if (task_number == 2) {
-                task = new TaskTwo(constraints, food_item_details_list);
-            } else if (task_number == 3) {
-                task = new TaskThree(constraints, food_item_details_list);
-            } else if (task_number == 4) {
-                task = new TaskFour(constraints, food_item_details_list);
+        Task task = null;
+        if (task_number == 1) {
+            task = new TaskOne(this.constraints, this.food_item_details_list);
+        } else if (task_number == 2) {
+            task = new TaskTwo(this.constraints, this.food_item_details_list);
+        } else if (task_number == 3) {
+            task = new TaskThree(this.constraints, this.food_item_details_list);
+        } else if (task_number == 4) {
+            task = new TaskFour(this.constraints, this.food_item_details_list);
+        }
+        if (task != null) {
+            try {
+                String optimal_cart = task.solve();
+                this.writer.write(optimal_cart);
+                this.writer.close();
+            } catch (FailedToSolveException e) {
+                System.out.println(e.toString());
+            } catch (IOException e) {
+                System.out.println("Failed to write to file.");
             }
-            if (task != null) {
-                try {
-                    String optimal_cart = task.solve();
-                    writer.write(optimal_cart);
-                } catch (FailedToSolveException e) {
-                    System.out.println(e.toString());
-                }
-            }
-            writer.close();
+        }
+    }
+    private void buildFoodItemDetailsList() throws IOException {
+        String food_item_line = this.reader.readLine();
+        while (food_item_line != null) {
+            HashMap<String, String> food_item_details = App.parseFoodItemDetails(food_item_line);
+            this.food_item_details_list.add(food_item_details);
+            food_item_line = this.reader.readLine();
         }
     }
 
@@ -104,19 +114,19 @@ public class App {
         return food_item_map;
     }
 
-    private static void validateConstraints(HashMap<String, String> constraints) {
+    private static void validateConstraints(HashMap<String, String> constraints) throws ValidationException{
         if (!constraints.get("task").matches("^[1-4]$")
                 || !constraints.get("budget").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
                 || !constraints.get("weight_limit").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
                 || !constraints.get("volume_limit").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
                 ) {
-            throw new IllegalArgumentException("Invalid constraints.");
+            throw new ValidationException("Invalid constraints.");
         }
     }
 
-    private static void validateFoodItemDetails(List<HashMap<String, String>> food_item_details_list) {
+    private static void validateFoodItemDetails(List<HashMap<String, String>> food_item_details_list) throws ValidationException{
         if (food_item_details_list.isEmpty()) {
-            throw new IllegalArgumentException("Invalid food item details.");
+            throw new ValidationException("Invalid food item details.");
         }
         for (HashMap<String, String> food_item_details : food_item_details_list) {
             if (!food_item_details.get("name").matches("^[a-zA-Z]+$")
@@ -125,8 +135,15 @@ public class App {
                     || !food_item_details.get("weight").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
                     || !food_item_details.get("volume").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
                     || !food_item_details.get("food_group").matches("^[a-zA-Z]+$")) {
-                throw new IllegalArgumentException("Invalid food item details");
+                throw new ValidationException("Invalid food item details");
             }
         }
+    }
+    public static void main(String[] args) {
+        String input_file_path = args[0];
+        String output_file_path = args[1];
+
+        App app = new App(input_file_path, output_file_path);
+        app.run();
     }
 }
