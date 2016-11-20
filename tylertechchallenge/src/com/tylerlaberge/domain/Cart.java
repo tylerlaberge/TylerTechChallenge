@@ -2,6 +2,9 @@ package com.tylerlaberge.domain;
 
 import java.util.*;
 
+/**
+ * A class for maintaining a cart which food items can be added and removed from.
+ */
 public class Cart {
 
     private final double WEIGHT_LIMIT;
@@ -12,6 +15,9 @@ public class Cart {
     private double current_weight = 0;
     private double current_volume = 0;
 
+    /**
+     * Create a new Cart instance.
+     */
     public Cart() {
         this.WEIGHT_LIMIT = Double.POSITIVE_INFINITY;
         this.VOLUME_LIMIT = Double.POSITIVE_INFINITY;
@@ -22,6 +28,11 @@ public class Cart {
         this.food_group_distribution.put("meat", 0.0);
     }
 
+    /**
+     * Create a new Cart instance.
+     *
+     * @param weight_limit  A weight limit constraint for the Cart.
+     */
     public Cart(double weight_limit) {
         this.WEIGHT_LIMIT = weight_limit;
         this.VOLUME_LIMIT = Double.POSITIVE_INFINITY;
@@ -32,6 +43,12 @@ public class Cart {
         this.food_group_distribution.put("meat", 0.0);
     }
 
+    /**
+     * Create a new Cart instance.
+     *
+     * @param weight_limit  A weight limit constraint for the Cart.
+     * @param volume_limit  A volume limit constraint for the Cart.
+     */
     public Cart(double weight_limit, double volume_limit) {
         this.WEIGHT_LIMIT = weight_limit;
         this.VOLUME_LIMIT = volume_limit;
@@ -42,6 +59,14 @@ public class Cart {
         this.food_group_distribution.put("meat", 0.0);
     }
 
+    /**
+     * Add a FoodItem to this Cart.
+     *
+     * @param food_item The FoodItem to add to this Cart.
+     * @param quantity  The number of this FoodItem to add to this Cart.
+     * @throws IllegalArgumentException If this Cart's weight or volume limit is surpassed
+     *                                  or if there is not enough of the FoodItem in stock.
+     */
     public void addFoodItem(FoodItem food_item, int quantity) throws IllegalArgumentException {
         if (quantity > 0) {
             if (food_item.getStock() >= quantity) {
@@ -66,6 +91,14 @@ public class Cart {
         }
     }
 
+    /**
+     * Remove a FoodItem from this Cart.
+     *
+     * @param food_item The FoodItem to remove from this Cart.
+     * @param quantity  The number of this FoodItem to remove from this Cart.
+     * @throws IllegalArgumentException If the quantity to remove is more than the number of this FoodItem in this Cart,
+     *                                  or the FoodItem is not in the Cart.
+     */
     public void removeFoodItem(FoodItem food_item, int quantity) {
         if (this.food_items.containsKey(food_item)) {
             int current_amount = this.food_items.get(food_item);
@@ -86,6 +119,9 @@ public class Cart {
         }
     }
 
+    /**
+     * Updates the food group distribution of the FoodItems in this Cart.
+     */
     private void updateFoodGroupDistribution() {
         HashMap<String, List<FoodItem>> cart_food_groups = new HashMap<>();
 
@@ -115,10 +151,20 @@ public class Cart {
         }
     }
 
+    /**
+     * Get whether or not this Cart contains any FoodItems.
+     *
+     * @return  Whether or not this Cart contains any FoodItems.
+     */
     public boolean isEmpty() {
         return this.food_items.isEmpty();
     }
 
+    /**
+     * Get whether or not the food group distribution of this Cart is balanced.
+     *
+     * @return  Whether or not the food group distribution of the Cart is balanced.
+     */
     public boolean isBalanced() {
         double num_food_groups = this.food_group_distribution.size();
         for (double distribution : this.food_group_distribution.values()) {
@@ -129,6 +175,11 @@ public class Cart {
         return true;
     }
 
+    /**
+     * Get the most distributed food group of this Cart.
+     *
+     * @return  The most distributed food group of this Cart.
+     */
     public String getMostDistributedFoodGroup() {
         String max_distributed_food_group = null;
         for (String food_group : this.food_group_distribution.keySet()) {
@@ -140,6 +191,12 @@ public class Cart {
         return max_distributed_food_group;
     }
 
+    /**
+     * Get the most distributed food item of this Cart, filtered by a food group.
+     *
+     * @param food_group    The food group to get the most distributed food item for.
+     * @return              The most distributed food item in this Cart that is part of the given food group.
+     */
     public FoodItem getMostDistributedFoodItemByFoodGroup(String food_group) {
 
         FoodItem most_distributed_food_item = null;
@@ -155,42 +212,74 @@ public class Cart {
         return most_distributed_food_item;
     }
 
-    public boolean containsFoodItem(FoodItem food_item) {
-        return this.food_items.containsKey(food_item);
-    }
-
-    public HashMap<String, Double> getFoodGroupDistribution() {
-        return this.food_group_distribution;
-    }
-
+    /**
+     * Get the weight limit of this Cart.
+     *
+     * @return The weight limit of this Cart.
+     */
     public double getWeightLimit() {
         return WEIGHT_LIMIT;
     }
 
+    /**
+     * Get the volume limit of this Cart.
+     *
+     * @return The volume limit of this Cart.
+     */
     public double getVolumeLimit() {
         return VOLUME_LIMIT;
     }
 
+    /**
+     * Get the current weight of this Cart being taken up by FoodItems.
+     *
+     * @return The current weight of this Cart.
+     */
     public double getCurrentWeight() {
         return current_weight;
     }
 
-    public double getRemainingWeight() {
-        return this.WEIGHT_LIMIT - this.current_weight;
-    }
-
-    public double getRemainingVolume() {
-        return this.VOLUME_LIMIT - this.current_volume;
-    }
-
+    /**
+     * Get the current volume of this Cart being take up by FoodItems.
+     *
+     * @return The current volume of this Cart.
+     */
     public double getCurrentVolume() {
         return current_volume;
     }
 
+    /**
+     * Get the remaining unused weight of this Cart.
+     *
+     * @return The remaining weight of this Cart.
+     */
+    public double getRemainingWeight() {
+        return this.WEIGHT_LIMIT - this.current_weight;
+    }
+
+    /**
+     * Get the remaining unused volume of this Cart.
+     *
+     * @return The remaining volume of this Cart.
+     */
+    public double getRemainingVolume() {
+        return this.VOLUME_LIMIT - this.current_volume;
+    }
+
+    /**
+     * Get the FoodItems and their amounts that are in this Cart.
+     *
+     * @return A Map of the FoodItems in this Cart mapped to how many are in this Cart.
+     */
     public HashMap<FoodItem, Integer> getFoodItems() {
         return food_items;
     }
 
+    /**
+     * Get a String representation of this Cart.
+     *
+     * @return The string representation of this Cart.
+     */
     public String toString() {
         StringJoiner joiner = new StringJoiner("\n");
         List<FoodItem> food_item_list = new ArrayList<>(this.food_items.keySet());
