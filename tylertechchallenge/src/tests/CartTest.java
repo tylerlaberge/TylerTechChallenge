@@ -2,7 +2,6 @@ package tests;
 
 import com.tylerlaberge.domain.Cart;
 import com.tylerlaberge.domain.FoodItem;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,9 +25,9 @@ public class CartTest {
 
     @Test
     public void addFoodItem() throws Exception {
-        this.cart.addFoodItem(this.food_item, this.food_item.getStock()/2);
+        this.cart.addFoodItem(this.food_item, this.food_item.getStock() / 2);
 
-        int amount  = this.cart.getFoodItems().get(this.food_item);
+        int amount = this.cart.getFoodItems().get(this.food_item);
 
         assertEquals(15, this.food_item.getStock());
         assertEquals(7.5, this.cart.getCurrentWeight(), 0.0);
@@ -47,13 +46,13 @@ public class CartTest {
         assertFalse(this.cart.getFoodItems().containsKey("bread"));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testRemoveOverQuantity() {
         this.cart.addFoodItem(this.food_item, 5);
         this.cart.removeFoodItem(this.food_item, 6);
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testRemoveMissingItem() {
         this.cart.removeFoodItem(this.food_item, 1);
     }

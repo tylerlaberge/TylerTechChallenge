@@ -1,9 +1,12 @@
 package com.tylerlaberge.main;
 
+import com.tylerlaberge.exceptions.FailedToSolveException;
 import com.tylerlaberge.tasks.*;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class App {
 
@@ -16,11 +19,11 @@ public class App {
 
         String first_line = reader.readLine();
 
+        HashMap<String, String> constraints = new HashMap<>();
+        List<HashMap<String, String>> food_item_details_list = new ArrayList<>();
+        boolean valid_input = false;
         try {
-            HashMap<String, String> constraints = App.parseConstraints(first_line);
-            App.validateConstraints(constraints);
-
-            List<HashMap<String, String>> food_item_details_list = new ArrayList<>();
+            constraints = App.parseConstraints(first_line);
 
             String food_item_line = reader.readLine();
             while (food_item_line != null) {
@@ -30,35 +33,44 @@ public class App {
             }
             reader.close();
 
+            App.validateConstraints(constraints);
             App.validateFoodItemDetails(food_item_details_list);
+            valid_input = true;
 
-            Task task = null;
-            if (Integer.parseInt(constraints.get("task")) == 1) {
-                task = new TaskOne(constraints, food_item_details_list);
-            }
-            else if (Integer.parseInt(constraints.get("task")) == 2) {
-                task = new TaskTwo(constraints, food_item_details_list);
-            }
-            else if (Integer.parseInt(constraints.get("task")) == 3) {
-                task = new TaskThree(constraints, food_item_details_list);
-            }
-            else if (Integer.parseInt(constraints.get("task")) == 4) {
-                task = new TaskFour(constraints, food_item_details_list);
-            }
-            if (task != null) {
-                String optimal_cart = task.solve();
-                writer.write(optimal_cart);
-            }
-            writer.close();
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid input file format.");
         }
+        if (valid_input) {
+
+            int task_number = Integer.parseInt(constraints.get("task"));
+
+            Task task = null;
+            if (task_number == 1) {
+                task = new TaskOne(constraints, food_item_details_list);
+            } else if (task_number == 2) {
+                task = new TaskTwo(constraints, food_item_details_list);
+            } else if (task_number == 3) {
+                task = new TaskThree(constraints, food_item_details_list);
+            } else if (task_number == 4) {
+                task = new TaskFour(constraints, food_item_details_list);
+            }
+            if (task != null) {
+                try {
+                    String optimal_cart = task.solve();
+                    writer.write(optimal_cart);
+                } catch (FailedToSolveException e) {
+                    System.out.println(e.toString());
+                }
+            }
+            writer.close();
+        }
     }
+
     private static HashMap<String, String> parseConstraints(String line) {
         HashMap<String, String> constraints_map = new HashMap<>();
 
         try {
-            if (!line.substring(line.length() - 1).equals(";")){
+            if (!line.substring(line.length() - 1).equals(";")) {
                 throw new IllegalArgumentException("Invalid line format");
             }
             String[] constraints = line.substring(0, line.length() - 1).split(",");
@@ -71,8 +83,9 @@ public class App {
         }
         return constraints_map;
     }
+
     private static HashMap<String, String> parseFoodItemDetails(String line) {
-        if (!line.substring(line.length() - 1).equals(";")){
+        if (!line.substring(line.length() - 1).equals(";")) {
             throw new IllegalArgumentException("Invalid line format");
         }
         HashMap<String, String> food_item_map = new HashMap<>();
@@ -90,15 +103,17 @@ public class App {
         }
         return food_item_map;
     }
+
     private static void validateConstraints(HashMap<String, String> constraints) {
         if (!constraints.get("task").matches("^[1-4]$")
-                || !constraints.get("budget").matches("^(0|[1-9][0-9]*)?(\\.[0-9]+)?$")
-                || !constraints.get("weight_limit").matches("^(0|[1-9][0-9]*)?(\\.[0-9]+)?$")
-                || !constraints.get("volume_limit").matches("^(0|[1-9][0-9]*)?(\\.[0-9]+)?$")
+                || !constraints.get("budget").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
+                || !constraints.get("weight_limit").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
+                || !constraints.get("volume_limit").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
                 ) {
             throw new IllegalArgumentException("Invalid constraints.");
         }
     }
+
     private static void validateFoodItemDetails(List<HashMap<String, String>> food_item_details_list) {
         if (food_item_details_list.isEmpty()) {
             throw new IllegalArgumentException("Invalid food item details.");
@@ -106,10 +121,10 @@ public class App {
         for (HashMap<String, String> food_item_details : food_item_details_list) {
             if (!food_item_details.get("name").matches("^[a-zA-Z]+$")
                     || !food_item_details.get("stock").matches("^(0|[1-9][0-9]*)$")
-                    || !food_item_details.get("price").matches("^(0|[1-9][0-9]*)?(\\.[0-9]+)?$")
-                    || !food_item_details.get("weight").matches("^(0|[1-9][0-9]*)?(\\.[0-9]+)?$")
-                    || !food_item_details.get("volume").matches("^(0|[1-9][0-9]*)?(\\.[0-9]+)?$")
-                    || !food_item_details.get("food_group").matches("^[a-zA-Z]+$")){
+                    || !food_item_details.get("price").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
+                    || !food_item_details.get("weight").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
+                    || !food_item_details.get("volume").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
+                    || !food_item_details.get("food_group").matches("^[a-zA-Z]+$")) {
                 throw new IllegalArgumentException("Invalid food item details");
             }
         }

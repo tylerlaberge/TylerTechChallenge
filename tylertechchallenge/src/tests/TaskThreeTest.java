@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 
 public class TaskThreeTest {
@@ -67,6 +67,7 @@ public class TaskThreeTest {
 
         assertEquals(expected_solution, actual_solution);
     }
+
     @Test
     public void testSolveTwo() throws Exception {
         HashMap<String, String> constraints = new HashMap<>();

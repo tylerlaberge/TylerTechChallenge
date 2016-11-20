@@ -1,14 +1,13 @@
 package tests;
 
-import com.tylerlaberge.domain.Shopper;
 import com.tylerlaberge.domain.Cart;
 import com.tylerlaberge.domain.FoodItem;
-
+import com.tylerlaberge.domain.Shopper;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class ShopperTest {
 
@@ -31,7 +30,7 @@ public class ShopperTest {
     @Test
     public void addToCart() throws Exception {
 
-        this.shopper.addToCart(this.food_item, this.food_item.getStock()/2);
+        this.shopper.addToCart(this.food_item, this.food_item.getStock() / 2);
         assertEquals(55.00, this.shopper.getRemainingBudget(), 0.0);
     }
 
@@ -43,6 +42,7 @@ public class ShopperTest {
 
         assertEquals(100.0, this.shopper.getRemainingBudget(), 0.0);
     }
+
     @Test
     public void getBudget() throws Exception {
         assertEquals(100.0, this.shopper.getBudget(), 0.0);

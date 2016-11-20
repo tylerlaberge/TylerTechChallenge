@@ -18,6 +18,7 @@ public class FoodItem {
         this.weight = weight;
         this.volume = volume;
     }
+
     public String getName() {
         return name;
     }
@@ -42,13 +43,17 @@ public class FoodItem {
         return volume;
     }
 
-    public double getValue() { return value; }
+    public double getValue() {
+        return value;
+    }
 
     public void setStock(int stock) {
         this.stock = stock;
     }
 
-    public void setValue(double value) { this.value = value; }
+    public void setValue(double value) {
+        this.value = value;
+    }
 
     public String toString() {
         return String.format("<FoodItem name: %s, stock: %d, price: %f, weight: %f, volume: %f, food_group: %s",

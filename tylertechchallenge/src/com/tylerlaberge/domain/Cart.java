@@ -41,6 +41,7 @@ public class Cart {
         this.food_group_distribution.put("veggies", 0.0);
         this.food_group_distribution.put("meat", 0.0);
     }
+
     public void addFoodItem(FoodItem food_item, int quantity) throws IllegalArgumentException {
         if (quantity > 0) {
             if (food_item.getStock() >= quantity) {
@@ -57,13 +58,14 @@ public class Cart {
                     this.current_volume += food_item.getVolume() * quantity;
                     this.updateFoodGroupDistribution();
                 } else {
-                    throw new IllegalArgumentException("Surpassed cart weight/volume limit");
+                    throw new IllegalArgumentException("Surpassed cart weight/volume limit.");
                 }
             } else {
-                throw new IllegalArgumentException("Not enough stock");
+                throw new IllegalArgumentException("Not enough stock for the food item.");
             }
         }
     }
+
     public void removeFoodItem(FoodItem food_item, int quantity) {
         if (this.food_items.containsKey(food_item)) {
             int current_amount = this.food_items.get(food_item);
@@ -83,6 +85,7 @@ public class Cart {
             throw new IllegalArgumentException("No such food item in the cart");
         }
     }
+
     private void updateFoodGroupDistribution() {
         HashMap<String, List<FoodItem>> cart_food_groups = new HashMap<>();
 
@@ -92,8 +95,7 @@ public class Cart {
             List<FoodItem> food_group_list;
             if (cart_food_groups.containsKey(food_group)) {
                 food_group_list = cart_food_groups.get(food_group);
-            }
-            else {
+            } else {
                 food_group_list = new ArrayList<>();
             }
             food_group_list.add(food_item);
@@ -112,28 +114,32 @@ public class Cart {
             this.food_group_distribution.put(food_group, distribution);
         }
     }
+
     public boolean isEmpty() {
         return this.food_items.isEmpty();
     }
+
     public boolean isBalanced() {
         double num_food_groups = this.food_group_distribution.size();
         for (double distribution : this.food_group_distribution.values()) {
-            if (distribution < 1/num_food_groups - 0.05 || distribution > 1/num_food_groups + 0.05) {
+            if (distribution < 1 / num_food_groups - 0.05 || distribution > 1 / num_food_groups + 0.05) {
                 return false;
             }
         }
         return true;
     }
-    public String getMostDistributedFoodGroup(){
+
+    public String getMostDistributedFoodGroup() {
         String max_distributed_food_group = null;
         for (String food_group : this.food_group_distribution.keySet()) {
             if (max_distributed_food_group == null ||
-                    this.food_group_distribution.get(food_group) > this.food_group_distribution.get(max_distributed_food_group)){
+                    this.food_group_distribution.get(food_group) > this.food_group_distribution.get(max_distributed_food_group)) {
                 max_distributed_food_group = food_group;
             }
         }
         return max_distributed_food_group;
     }
+
     public FoodItem getMostDistributedFoodItemByFoodGroup(String food_group) {
 
         FoodItem most_distributed_food_item = null;
@@ -141,18 +147,21 @@ public class Cart {
             if (food_item.getFood_group().equals(food_group) &&
                     (
                             most_distributed_food_item == null ||
-                            this.getFoodItems().get(food_item) > this.getFoodItems().get(most_distributed_food_item)
-                    )){
+                                    this.getFoodItems().get(food_item) > this.getFoodItems().get(most_distributed_food_item)
+                    )) {
                 most_distributed_food_item = food_item;
             }
         }
         return most_distributed_food_item;
     }
+
     public boolean containsFoodItem(FoodItem food_item) {
         return this.food_items.containsKey(food_item);
     }
 
-    public HashMap<String, Double> getFoodGroupDistribution() { return this.food_group_distribution; }
+    public HashMap<String, Double> getFoodGroupDistribution() {
+        return this.food_group_distribution;
+    }
 
     public double getWeightLimit() {
         return WEIGHT_LIMIT;
@@ -166,9 +175,13 @@ public class Cart {
         return current_weight;
     }
 
-    public double getRemainingWeight() { return this.WEIGHT_LIMIT - this.current_weight; }
+    public double getRemainingWeight() {
+        return this.WEIGHT_LIMIT - this.current_weight;
+    }
 
-    public double getRemainingVolume() { return this.VOLUME_LIMIT - this.current_volume; }
+    public double getRemainingVolume() {
+        return this.VOLUME_LIMIT - this.current_volume;
+    }
 
     public double getCurrentVolume() {
         return current_volume;

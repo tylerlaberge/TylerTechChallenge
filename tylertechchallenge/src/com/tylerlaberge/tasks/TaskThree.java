@@ -3,8 +3,12 @@ package com.tylerlaberge.tasks;
 import com.tylerlaberge.domain.Cart;
 import com.tylerlaberge.domain.FoodItem;
 import com.tylerlaberge.domain.Shopper;
+import com.tylerlaberge.exceptions.FailedToSolveException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class TaskThree extends Task {
@@ -12,6 +16,7 @@ public class TaskThree extends Task {
     public TaskThree(HashMap<String, String> constraints, List<HashMap<String, String>> inventory_details) {
         super(constraints, inventory_details);
     }
+
     @Override
     protected Shopper buildShopper(HashMap<String, String> constraints) {
         return new Shopper(
@@ -19,14 +24,19 @@ public class TaskThree extends Task {
                 new Cart(Double.parseDouble(constraints.get("weight_limit")))
         );
     }
+
     @Override
-    public String solve() {
+    public String solve() throws FailedToSolveException {
         Collections.sort(this.inventory, this.shopper.leastOptimalFoodItemComparator());
         List<FoodItem> purchasable_list = new ArrayList<>(this.inventory);
 
-        this.shopper.fillCart(purchasable_list);
+        try {
+            this.shopper.fillCart(purchasable_list);
+        } catch (IllegalArgumentException e) {
+            throw new FailedToSolveException("Failed to solve the given input.");
+        }
 
-        while(!this.shopper.getCart().isBalanced() && !this.shopper.getCart().isEmpty()){
+        while (!this.shopper.getCart().isBalanced() && !this.shopper.getCart().isEmpty()) {
             if (purchasable_list.isEmpty()) {
                 purchasable_list = new ArrayList<>(this.inventory);
             }
@@ -34,13 +44,20 @@ public class TaskThree extends Task {
             String most_distributed_food_group = this.shopper.getCart().getMostDistributedFoodGroup();
             FoodItem most_distributed_food_item = this.shopper.getCart().getMostDistributedFoodItemByFoodGroup(most_distributed_food_group);
 
-            this.shopper.removeFromCart(most_distributed_food_item, 1);
+            try {
+                this.shopper.removeFromCart(most_distributed_food_item, 1);
+            } catch (IllegalArgumentException e) {
+                throw new FailedToSolveException("Failed to solve the given input.");
+            }
             if (this.shopper.getCart().isEmpty()) {
                 break;
-            }
-            else {
+            } else {
                 purchasable_list.remove(most_distributed_food_item);
-                this.shopper.fillCart(purchasable_list);
+                try {
+                    this.shopper.fillCart(purchasable_list);
+                } catch (IllegalArgumentException e) {
+                    throw new FailedToSolveException("Failed to solve the given input.");
+                }
             }
         }
         return this.shopper.getCart().toString();

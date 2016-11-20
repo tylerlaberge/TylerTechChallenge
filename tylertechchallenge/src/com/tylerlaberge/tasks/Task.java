@@ -2,6 +2,7 @@ package com.tylerlaberge.tasks;
 
 import com.tylerlaberge.domain.FoodItem;
 import com.tylerlaberge.domain.Shopper;
+import com.tylerlaberge.exceptions.FailedToSolveException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +17,8 @@ public abstract class Task {
         this.shopper = this.buildShopper(constraints);
         this.inventory = this.buildInventory(inventory_details);
     }
-    public abstract String solve();
+
+    public abstract String solve() throws FailedToSolveException;
 
     abstract Shopper buildShopper(HashMap<String, String> constraints);
 
