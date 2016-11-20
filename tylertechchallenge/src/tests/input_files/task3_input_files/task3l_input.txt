@@ -1,0 +1,9 @@
+3, 1000, 200, 120;
+bread, 100, 3.00, 0.5, 4.00, grains;
+italian_bread, 2, 1.50, 0.25, 2.00, grains;
+chicken, 100, 5.00, 1.3, 1.36, meat;
+beef, 2, 2.50, 0.65, 0.68, meat;
+milk, 100, 4.00, 3.5, 3.8, dairy;
+chocolate_milk, 2, 2.00, 1.75, 1.9, dairy;
+strawberry, 2, 0.50, 5, 1, veggies;
+watermelon, 100, 1.00, 10, 2, veggies;
