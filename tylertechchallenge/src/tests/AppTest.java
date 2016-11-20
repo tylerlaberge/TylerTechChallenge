@@ -58,7 +58,9 @@ public class AppTest {
             input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task2_input_files/task2h_input.txt").toURI()));
             input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task2_input_files/task2i_input.txt").toURI()));
             input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task2_input_files/task2j_input.txt").toURI()));
-
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task2_input_files/task2k_input.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task2_input_files/task2l_input.txt").toURI()));
+            input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task2_input_files/task2m_input.txt").toURI()));
         }
         else if (task == 3){
             input_file_paths.add(Paths.get(AppTest.class.getResource("input_files/task3_input_files/task3a_input.txt").toURI()));
@@ -117,7 +119,9 @@ public class AppTest {
             output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task2_output_files/task2h_output.txt").toURI()));
             output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task2_output_files/task2i_output.txt").toURI()));
             output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task2_output_files/task2j_output.txt").toURI()));
-
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task2_output_files/task2k_output.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task2_output_files/task2l_output.txt").toURI()));
+            output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task2_output_files/task2m_output.txt").toURI()));
         }
         else if (task == 3){
             output_file_paths.add(Paths.get(AppTest.class.getResource("output_files/task3_output_files/task3a_output.txt").toURI()));

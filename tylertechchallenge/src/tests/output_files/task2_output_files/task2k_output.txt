@@ -1,0 +1,3 @@
+bread, 15;
+chicken, 2;
+italian_bread, 15;
