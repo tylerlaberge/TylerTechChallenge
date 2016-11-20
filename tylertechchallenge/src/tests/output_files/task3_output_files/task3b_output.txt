@@ -1,4 +1,4 @@
-bread, 5;
-chicken, 4;
-milk, 6;
-watermelon, 5;
+bread, 6;
+chicken, 5;
+milk, 5;
+watermelon, 4;

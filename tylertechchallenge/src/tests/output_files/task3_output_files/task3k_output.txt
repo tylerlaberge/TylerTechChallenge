@@ -1,0 +1,8 @@
+beef, 5;
+bread, 8;
+chicken, 5;
+chocolate_milk, 8;
+green_beans, 5;
+italian_bread, 7;
+milk, 7;
+watermelon, 5;
