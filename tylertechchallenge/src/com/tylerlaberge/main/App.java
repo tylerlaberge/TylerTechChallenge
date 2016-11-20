@@ -31,7 +31,7 @@ public class App {
 
             App.validateConstraints(this.constraints);
             App.validateFoodItemDetails(this.food_item_details_list);
-        } catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             System.out.println("Invalid input file format.");
             System.exit(1);
         } catch (ValidationException e) {
@@ -42,6 +42,7 @@ public class App {
             System.exit(1);
         }
     }
+
     private void run() {
         int task_number = Integer.parseInt(this.constraints.get("task"));
 
@@ -67,6 +68,7 @@ public class App {
             }
         }
     }
+
     private void buildFoodItemDetailsList() throws IOException {
         String food_item_line = this.reader.readLine();
         while (food_item_line != null) {
@@ -114,7 +116,7 @@ public class App {
         return food_item_map;
     }
 
-    private static void validateConstraints(HashMap<String, String> constraints) throws ValidationException{
+    private static void validateConstraints(HashMap<String, String> constraints) throws ValidationException {
         if (!constraints.get("task").matches("^[1-4]$")
                 || !constraints.get("budget").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
                 || !constraints.get("weight_limit").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
@@ -124,7 +126,7 @@ public class App {
         }
     }
 
-    private static void validateFoodItemDetails(List<HashMap<String, String>> food_item_details_list) throws ValidationException{
+    private static void validateFoodItemDetails(List<HashMap<String, String>> food_item_details_list) throws ValidationException {
         if (food_item_details_list.isEmpty()) {
             throw new ValidationException("Invalid food item details.");
         }
@@ -139,6 +141,7 @@ public class App {
             }
         }
     }
+
     public static void main(String[] args) {
         String input_file_path = args[0];
         String output_file_path = args[1];
