@@ -1,0 +1,3 @@
+beef, 2;
+chicken, 2;
+chocolate_milk, 1;

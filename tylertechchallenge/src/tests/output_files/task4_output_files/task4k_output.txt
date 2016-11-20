@@ -1,0 +1,4 @@
+beef, 2;
+chicken, 2;
+milk, 1;
+watermelon, 1;
