@@ -1,7 +1,5 @@
 package com.tylerlaberge.domain;
 
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
-
 import java.util.*;
 
 public class Cart {
@@ -43,7 +41,7 @@ public class Cart {
         this.food_group_distribution.put("veggies", 0.0);
         this.food_group_distribution.put("meat", 0.0);
     }
-    public void addFoodItem(FoodItem food_item, int quantity) throws ValueException {
+    public void addFoodItem(FoodItem food_item, int quantity) throws IllegalArgumentException {
         if (quantity > 0) {
             if (food_item.getStock() >= quantity) {
                 if (this.current_weight + food_item.getWeight() * quantity <= this.WEIGHT_LIMIT
@@ -59,10 +57,10 @@ public class Cart {
                     this.current_volume += food_item.getVolume() * quantity;
                     this.updateFoodGroupDistribution();
                 } else {
-                    throw new ValueException("Surpassed cart weight/volume limit");
+                    throw new IllegalArgumentException("Surpassed cart weight/volume limit");
                 }
             } else {
-                throw new ValueException("Not enough stock");
+                throw new IllegalArgumentException("Not enough stock");
             }
         }
     }
@@ -75,14 +73,14 @@ public class Cart {
             } else if (after_amount == 0) {
                 this.food_items.remove(food_item);
             } else {
-                throw new ValueException("Cannot remove more food items than there are in the cart.");
+                throw new IllegalArgumentException("Cannot remove more food items than there are in the cart.");
             }
             this.current_weight -= food_item.getWeight() * quantity;
             this.current_volume -= food_item.getVolume() * quantity;
             food_item.setStock(food_item.getStock() + quantity);
             this.updateFoodGroupDistribution();
         } else {
-            throw new ValueException("No such food item in the cart");
+            throw new IllegalArgumentException("No such food item in the cart");
         }
     }
     private void updateFoodGroupDistribution() {

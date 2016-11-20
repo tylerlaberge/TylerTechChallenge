@@ -2,7 +2,7 @@ package tests;
 
 import com.tylerlaberge.domain.Cart;
 import com.tylerlaberge.domain.FoodItem;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,13 +47,13 @@ public class CartTest {
         assertFalse(this.cart.getFoodItems().containsKey("bread"));
     }
 
-    @Test(expected=ValueException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testRemoveOverQuantity() {
         this.cart.addFoodItem(this.food_item, 5);
         this.cart.removeFoodItem(this.food_item, 6);
     }
 
-    @Test(expected=ValueException.class)
+    @Test(expected=IllegalArgumentException.class)
     public void testRemoveMissingItem() {
         this.cart.removeFoodItem(this.food_item, 1);
     }

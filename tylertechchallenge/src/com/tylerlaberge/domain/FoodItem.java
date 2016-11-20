@@ -1,7 +1,5 @@
 package com.tylerlaberge.domain;
 
-import java.util.Comparator;
-
 public class FoodItem {
 
     private String name;
@@ -19,44 +17,6 @@ public class FoodItem {
         this.price = price;
         this.weight = weight;
         this.volume = volume;
-    }
-    public static Comparator<FoodItem> priceComparator() {
-        return new Comparator<FoodItem>() {
-            @Override
-            public int compare(FoodItem o1, FoodItem o2) {
-                if (o1.getPrice() == o2.getPrice())
-                    return 0;
-                else {
-                    return o1.getPrice() < o2.getPrice() ? -1 : 1;
-                }
-            }
-        };
-    }
-    public static Comparator<FoodItem> mostOptimalComparator() {
-        return new Comparator<FoodItem>() {
-            @Override
-            public int compare(FoodItem o1, FoodItem o2) {
-                if (o1.getValue() == o2.getValue()) {
-                    return 0;
-                }
-                else {
-                    return o1.getValue() < o2.getValue() ? -1 : 1;
-                }
-            }
-        };
-    }
-    public static Comparator<FoodItem> leastOptimalComparator(){
-        return new Comparator<FoodItem>() {
-            @Override
-            public int compare(FoodItem o1, FoodItem o2) {
-                if (o1.getValue() == o2.getValue()) {
-                    return 0;
-                }
-                else {
-                    return o1.getValue() < o2.getValue() ? 1 : -1;
-                }
-            }
-        };
     }
     public String getName() {
         return name;

@@ -1,9 +1,5 @@
 package com.tylerlaberge.domain;
 
-import jdk.nashorn.internal.runtime.regexp.joni.Matcher;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
-
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -72,10 +68,9 @@ public class Shopper {
             this.cart.addFoodItem(food_item, quantity);
             this.remaining_budget -= food_item.getPrice() * quantity;
         } else {
-            throw new ValueException("Cant afford food item");
+            throw new IllegalArgumentException("Cant afford food item");
         }
     }
-
     public void removeFromCart(FoodItem food_item, int quantity) {
         this.cart.removeFoodItem(food_item, quantity);
         this.remaining_budget += food_item.getPrice() * quantity;
@@ -91,15 +86,6 @@ public class Shopper {
     }
     public boolean canAfford(FoodItem food_item, int quantity) {
         return this.remaining_budget - food_item.getPrice() * quantity >= 0;
-    }
-    public double getBudgetWeight() {
-        return  1/this.getBudget()/(1/this.getBudget() + 1/this.getCart().getWeightLimit() + 1/this.getCart().getVolumeLimit());
-    }
-    public double getWeightLimitWeight() {
-        return  1/this.getCart().getWeightLimit()/(1/this.getBudget() + 1/this.getCart().getWeightLimit() + 1/this.getCart().getVolumeLimit());
-    }
-    public double getVolumeLimitWeight() {
-        return 1/this.getCart().getVolumeLimit()/(1/this.getBudget() + 1/this.getCart().getWeightLimit() + 1/this.getCart().getVolumeLimit());
     }
     public double getBudget() {
         return budget;
