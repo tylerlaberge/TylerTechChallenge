@@ -9,6 +9,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
+/**
+ * The main class of the application.
+ *
+ * This application solves tasks described by the TylerTech challenge.
+ */
 public class App {
 
     private BufferedReader reader;
@@ -16,6 +22,12 @@ public class App {
     private HashMap<String, String> constraints;
     private List<HashMap<String, String>> food_item_details_list;
 
+    /**
+     * Create a new App instance.
+     *
+     * @param input_file_path   The path to the input file containing the constraints of the task.
+     * @param output_file_path  The path to the output file to write the solution too.
+     */
     private App(String input_file_path, String output_file_path) {
         try {
             this.reader = new BufferedReader(new FileReader(input_file_path));
@@ -43,6 +55,11 @@ public class App {
         }
     }
 
+    /**
+     * Run the application.
+     *
+     * Solves the problem described in the given input file path and outputs the solution to the given output file path.
+     */
     private void run() {
         int task_number = Integer.parseInt(this.constraints.get("task"));
 
@@ -69,6 +86,11 @@ public class App {
         }
     }
 
+    /**
+     * Builds the list of details for each food item contained in the file at the given input file path.
+     *
+     * @throws IOException  If the input file could not be read.
+     */
     private void buildFoodItemDetailsList() throws IOException {
         String food_item_line = this.reader.readLine();
         while (food_item_line != null) {
@@ -78,6 +100,12 @@ public class App {
         }
     }
 
+    /**
+     * Parses the constraints out of the constrains line in the given input file.
+     *
+     * @param line  The line containing the constraints of the problem.
+     * @return      A mapping of the constraints names to their values.
+     */
     private static HashMap<String, String> parseConstraints(String line) {
         HashMap<String, String> constraints_map = new HashMap<>();
 
@@ -96,6 +124,12 @@ public class App {
         return constraints_map;
     }
 
+    /**
+     * Parses the food item details out of a food item line in the given input file.
+     *
+     * @param line  A line containing the details of a food item for the problem.
+     * @return      A mapping of the food item detail names to their values.
+     */
     private static HashMap<String, String> parseFoodItemDetails(String line) {
         if (!line.substring(line.length() - 1).equals(";")) {
             throw new IllegalArgumentException("Invalid line format");
@@ -116,6 +150,12 @@ public class App {
         return food_item_map;
     }
 
+    /**
+     * Validate that the constraints are valid values.
+     *
+     * @param constraints           The constraints to validate.
+     * @throws ValidationException  If the constraints fail validation.
+     */
     private static void validateConstraints(HashMap<String, String> constraints) throws ValidationException {
         if (!constraints.get("task").matches("^[1-4]$")
                 || !constraints.get("budget").matches("^(0+|[1-9][0-9]*)?\\.?[0-9]+$")
@@ -126,6 +166,12 @@ public class App {
         }
     }
 
+    /**
+     * Validate that the list of food item details are valid values.
+     *
+     * @param food_item_details_list    The list of food item details to validate.
+     * @throws ValidationException      If a food item fails validation.
+     */
     private static void validateFoodItemDetails(List<HashMap<String, String>> food_item_details_list) throws ValidationException {
         if (food_item_details_list.isEmpty()) {
             throw new ValidationException("Invalid food item details.");
@@ -142,6 +188,12 @@ public class App {
         }
     }
 
+    /**
+     * The main entry point of the application.
+     * Runs the application with the given input and output files.
+     *
+     * @param args  Command line arguments. Should be of the form [input_file_path, output_file_path].
+     */
     public static void main(String[] args) {
         String input_file_path = args[0];
         String output_file_path = args[1];
