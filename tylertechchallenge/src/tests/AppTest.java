@@ -354,8 +354,14 @@ public class AppTest {
     @Test
     public void testTaskThreeInputK() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("input_files/task3_input_files/task3k_input.txt").toURI());
-        Path output_file_path = Paths.get(AppTest.class.getResource("output_files/task3_output_files/task3k_output.txt").toURI());
-        this.testTask(input_file_path, output_file_path);
+        Path output_file_path_one = Paths.get(AppTest.class.getResource("output_files/task3_output_files/task3k1_output.txt").toURI());
+        Path output_file_path_two = Paths.get(AppTest.class.getResource("output_files/task3_output_files/task3k2_output.txt").toURI());
+
+        try {
+            this.testTask(input_file_path, output_file_path_one);
+        } catch (AssertionError e) {
+            this.testTask(input_file_path, output_file_path_two);
+        }
     }
 
     @Test
