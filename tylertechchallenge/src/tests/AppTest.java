@@ -2,12 +2,14 @@ package tests;
 
 import com.tylerlaberge.main.App;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.contrib.java.lang.system.Assertion;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
 import org.junit.rules.TemporaryFolder;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -27,12 +29,13 @@ public class AppTest {
     @Rule
     public final ExpectedSystemExit exit = ExpectedSystemExit.none();
 
-    @Before
-    public void setUp() throws Exception {
-    }
+    private final PrintStream orig_out_stream = System.out;
+    private final PrintStream orig_err_stream = System.err;
 
     @After
-    public void tearDown() throws Exception {
+    public void cleanUpStreams() {
+        System.setOut(orig_out_stream);
+        System.setErr(orig_err_stream);
     }
 
     private List<Path> getInputFilePaths(int task) throws Exception {
@@ -229,148 +232,156 @@ public class AppTest {
 
         this.testTask(input_file_paths, output_file_paths);
     }
-    private void testBadInput(Path input_file_path) {
+    private void testBadInput(Path input_file_path, String expected_output_message) {
+        System.out.println(input_file_path);
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
         String[] args = new String[2];
         args[0] = input_file_path.toString();
         args[1] = this.folder.getRoot() + "/output.txt";
 
-        System.out.println(input_file_path.toString());
         this.exit.expectSystemExit();
+        this.exit.checkAssertionAfterwards(new Assertion() {
+            public void checkAssertion() {
+                assertEquals(expected_output_message + "\n".trim(), outContent.toString().trim());
+            }
+        });
         App.main(args);
     }
     @Test
     public void testBadInputA() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_a.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Invalid input file format.");
     }
     @Test
     public void testBadInputB() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_b.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }
     @Test
     public void testBadInputC() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_c.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }
     @Test
     public void testBadInputD() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_d.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputE() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_e.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputF() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_f.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputG() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_g.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputH() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_h.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Invalid input file format.");
     }@Test
     public void testBadInputI() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_i.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputJ() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_j.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputK() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_k.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputL() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_l.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputM() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_m.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputN() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_n.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputO() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_o.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Invalid input file format.");
     }@Test
     public void testBadInputP() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_p.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputQ() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_q.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputR() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_r.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputS() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_s.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputT() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_t.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputU() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_u.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputV() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_v.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Invalid input file format.");
     }@Test
     public void testBadInputW() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_w.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputX() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_x.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }
     @Test
     public void testBadInputY() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_y.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }@Test
     public void testBadInputZ() throws Exception {
         Path input_file_path = Paths.get(AppTest.class.getResource("bad_input_files/bad_input_z.txt").toURI());
         this.exit.expectSystemExit();
-        this.testBadInput(input_file_path);
+        this.testBadInput(input_file_path, "Input file failed validation.");
     }
 }

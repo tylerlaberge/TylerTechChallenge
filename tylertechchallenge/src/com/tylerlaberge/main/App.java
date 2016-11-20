@@ -32,7 +32,7 @@ public class App {
             App.validateConstraints(this.constraints);
             App.validateFoodItemDetails(this.food_item_details_list);
         } catch (IllegalArgumentException e){
-            System.out.println("Invalid input file format");
+            System.out.println("Invalid input file format.");
             System.exit(1);
         } catch (ValidationException e) {
             System.out.println("Input file failed validation.");
