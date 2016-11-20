@@ -13,7 +13,7 @@ public abstract class Task {
     protected Shopper shopper;
     protected List<FoodItem> inventory;
 
-    public Task(HashMap<String, String> constraints, List<HashMap<String, String>> inventory_details) {
+    protected Task(HashMap<String, String> constraints, List<HashMap<String, String>> inventory_details) {
         this.shopper = this.buildShopper(constraints);
         this.inventory = this.buildInventory(inventory_details);
     }
