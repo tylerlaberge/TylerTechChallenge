@@ -91,7 +91,7 @@ public class Cart {
 
         int food_group_quantity_sum = 0;
         for (FoodItem food_item : this.food_items.keySet()) {
-            String food_group = food_item.getFood_group();
+            String food_group = food_item.getFoodGroup();
             List<FoodItem> food_group_list;
             if (cart_food_groups.containsKey(food_group)) {
                 food_group_list = cart_food_groups.get(food_group);
@@ -144,7 +144,7 @@ public class Cart {
 
         FoodItem most_distributed_food_item = null;
         for (FoodItem food_item : this.getFoodItems().keySet()) {
-            if (food_item.getFood_group().equals(food_group) &&
+            if (food_item.getFoodGroup().equals(food_group) &&
                     (
                             most_distributed_food_item == null ||
                                     this.getFoodItems().get(food_item) > this.getFoodItems().get(most_distributed_food_item)

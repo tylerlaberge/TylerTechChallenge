@@ -27,7 +27,7 @@ public class FoodItemTest {
 
     @Test
     public void getFood_group() throws Exception {
-        assertEquals("grains", this.food_item.getFood_group());
+        assertEquals("grains", this.food_item.getFoodGroup());
     }
 
     @Test
