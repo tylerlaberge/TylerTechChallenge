@@ -3,7 +3,7 @@ package com.tylerlaberge.domain;
 import java.util.*;
 
 /**
- * A class for maintaining a cart which food items can be added and removed from.
+ * A class for maintaining a collection of FoodItems without going over weight or volume constraints..
  */
 public class Cart {
 
