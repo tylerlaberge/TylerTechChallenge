@@ -81,7 +81,6 @@ public class Cart {
                     food_item.setStock(food_item.getStock() - quantity);
                     this.current_weight += food_item.getWeight() * quantity;
                     this.current_volume += food_item.getVolume() * quantity;
-                    this.updateFoodGroupDistribution();
                 } else {
                     throw new IllegalArgumentException("Surpassed cart weight/volume limit.");
                 }
@@ -113,7 +112,6 @@ public class Cart {
             this.current_weight -= food_item.getWeight() * quantity;
             this.current_volume -= food_item.getVolume() * quantity;
             food_item.setStock(food_item.getStock() + quantity);
-            this.updateFoodGroupDistribution();
         } else {
             throw new IllegalArgumentException("No such food item in the cart");
         }
@@ -166,6 +164,7 @@ public class Cart {
      * @return  Whether or not the food group distribution of the Cart is balanced.
      */
     public boolean isBalanced() {
+        this.updateFoodGroupDistribution();
         double num_food_groups = this.food_group_distribution.size();
         for (double distribution : this.food_group_distribution.values()) {
             if (distribution < 1 / num_food_groups - 0.05 || distribution > 1 / num_food_groups + 0.05) {
@@ -181,6 +180,7 @@ public class Cart {
      * @return  The most distributed food group of this Cart.
      */
     public String getMostDistributedFoodGroup() {
+        this.updateFoodGroupDistribution();
         String max_distributed_food_group = null;
         for (String food_group : this.food_group_distribution.keySet()) {
             if (max_distributed_food_group == null ||
