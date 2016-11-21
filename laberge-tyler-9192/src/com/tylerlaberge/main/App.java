@@ -34,7 +34,6 @@ public class App {
             this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output_file_path), "utf-8"));
         } catch (IOException e) {
             System.out.println("Failed to open file.");
-            System.out.println(e.toString());
             System.exit(1);
         }
         try {
