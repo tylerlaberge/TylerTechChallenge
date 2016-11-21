@@ -34,6 +34,7 @@ public class App {
             this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(output_file_path), "utf-8"));
         } catch (IOException e) {
             System.out.println("Failed to open file.");
+            System.out.println(e.toString());
             System.exit(1);
         }
         try {
@@ -195,10 +196,17 @@ public class App {
      * @param args  Command line arguments. Should be of the form [input_file_path, output_file_path].
      */
     public static void main(String[] args) {
-        String input_file_path = args[0];
-        String output_file_path = args[1];
-
-        App app = new App(input_file_path, output_file_path);
-        app.run();
+        String input_file_path = null;
+        String output_file_path = null;
+        try{
+            input_file_path = args[0];
+            output_file_path = args[1];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Must supply input and output file arguments.");
+        }
+        if (input_file_path != null && output_file_path != null){
+            App app = new App(input_file_path, output_file_path);
+            app.run();
+        }
     }
 }
