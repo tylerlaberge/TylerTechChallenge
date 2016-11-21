@@ -20,7 +20,7 @@ Running the program:
 
 Change directories into the source directory.
 
-$ cd laberge-tyler-9192/src
+$ cd src
 
 Run the App class.
 
