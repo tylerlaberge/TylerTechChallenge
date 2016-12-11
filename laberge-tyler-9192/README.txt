@@ -25,8 +25,3 @@ $ cd src
 Run the App class.
 
 $ java com.tylerlaberge.main.App "fully_qualified_input_file_path" "output_file_path"
-
-Contact information:
-
-email: tyler.laberge@maine.edu
-phone: 207-329-5760
